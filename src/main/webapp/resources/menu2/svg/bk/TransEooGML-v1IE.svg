@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="720" height="240" onload="initialize(evt)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="0" y="0" rx="15" ry="15" width="712" height="240" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect x="145" y="96" width="186" height="81" rx="5" ry="5" fill="#E6E6E6" stroke="#CCCCCC" stroke-width="2" transform="matrix(3.632,0,0,2.649,-507.574,-242.2)" xmlns="http://www.w3.org/2000/svg" />
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+
+	<script type="text/ecmascript">
+		<![CDATA[	
+		
+		var myMapApp = new mapApp(false,undefined);
+		var textbox1;
+		
+		
+		var textbutton1;
+		var textbutton2;
+		
+		
+		
+		function initialize(evt) {
+		            //resizeTo(760,440)
+		            //styles
+		            var textStyles = {"font-family":"SimSun","font-size":15,"fill":"black"};
+		            var boxStyles = {"fill":"#E9E9E9","stroke":"black","stroke-width":1.5};
+		            var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		            var textselBoxStyles = {"fill":"blue","opacity":0.5};
+		          
+			//buttons style
+			var buttonTextStyles = {"font-family":"SimSun","fill":"navy","font-size":12};
+			var buttonStyles = {"fill":"lightsteelblue"};
+			var shadeLightStyles = {"fill":"white"};
+			var shadeDarkStyles = {"fill":"navy"};
+			var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+			var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+			var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+								
+							            
+		        //textbox_x
+				var textboxX = 180;
+				var textYOffset = 16;//字体距离textbox上框的高度
+		        //checkbox_x
+				var checkboxX = 180;				
+				//labeltext styles
+				//var labeltextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":15};//Arial,Helvetica，360浏览器不支持
+				var labeltextStyles = {"font-family":"SimSun","fill":"dimgray","font-size":15};				
+				//variables for label placement
+				var labelDistance = 12;
+				var labelYOffset = 5.5;
+			
+			
+									
+			//create new textboxes
+			textbox1 = new textbox("textbox1","textbox1","upload files",300,textboxX,92,230,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			
+			//create new buttons
+			textbutton1 = new button("textbutton1","textbuttons",buttonPressed,"rect","..浏览",undefined,420,90,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			textbutton2 = new button("textbutton2","textbuttons",buttonPressed,"rect","重置",undefined,220,160,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			textbutton3 = new button("textbutton2","textbuttons",buttonPressed,"rect","提交",undefined,360,160,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			
+			//Searchbutton1 = new button("Searchbutton1","textbuttons",buttonPressed,"rect","开始检索",undefined,40,385,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			//ReInputbutton2 = new button("ReInputbutton2","textbuttons",buttonPressed,"rect","重新输入",undefined,160,385,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+
+
+				//a radio box group
+				var radioGroupDate = new radioButtonGroup("radioGroupDate",setDataRadio);
+
+		
+			}
+			
+function ShowCondition(selBoxName,conditionNr,arrayVal) {
+	document.getElementById("inputchange").firstChild.nodeValue = "Your selection is:" + arrayVal;
+
+}
+			
+			function setDataRadio(cbId,radioId,label) {
+				document.getElementById("inputchange").firstChild.nodeValue = "Your selection is: '"+label+"'";
+			}
+			
+			function getLayerInfo(id,status,label) {
+				var onOrOff = "off";
+				if (status) {
+					onOrOff = "on";
+				}
+				document.getElementById("inputchange").firstChild.nodeValue = "You just turned layer '"+label+"' "+onOrOff+"!";
+			}
+
+		function SelectDate(textboxId,value,changeType) {
+		/*
+			if (changeType == "release") {
+				document.getElementById("resultText").firstChild.nodeValue = "Content of "+textboxId+" is \""+value+"\"";
+			}
+			if (textboxId == "textboxDate1" && changeType == "change") {
+				document.getElementById("resultText").firstChild.nodeValue = "Content of "+textboxId+" is \""+value+"\"";
+			}
+			*/
+			//setday(document.getElementById("textboxDate1"))；
+		}
+		
+		function getTextInfo(textboxId,value,changeType) {
+		
+			document.getElementById("inputchange").firstChild.nodeValue = "Content of "+textboxId+" is \""+value+"\"";
+			
+			//setday(document.getElementById("textboxDate1"))；
+		}
+		
+		function buttonPressed(buttonId,evt,textVal) {
+			document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+			
+			if(buttonId=="textbutton1")
+			{
+				showDialog();
+			}
+		}
+		
+		
+function showDialog(){
+   MSComDlg_CommonDialog(1);
+}
+function MSComDlg_CommonDialog(cmd){
+    if(!ActiveXObject)return;
+    var obj=new ActiveXObject('MSComDlg.CommonDialog');
+    var filename=false;
+    try{
+        switch(cmd){
+        case 2:
+            obj.ShowColor();
+            break;
+        case 3:
+            obj.ShowFont();
+            break;
+        case 4:
+            obj.ShowHelp();
+            break;
+        default:
+            obj.Filter= "E00文件(*.e00)|*.e00|All files(*.*)|*.*|";
+            obj.FilterIndex = 1;
+            obj.MaxFileSize = 255;
+            if(cmd==0){
+                obj.ShowSave();
+            }else{
+                obj.ShowOpen();
+            }
+        }
+        filename = obj.filename;
+        
+        //alert(filename);
+        document.getElementById("inputchange").firstChild.nodeValue = filename;
+        
+    }catch(e){alert(e.message);}
+    return filename;
+}		
+		
+		]]>
+	</script>
+	<g id="textbox1" />
+	
+		
+	<g font-family="SimSun" font-size="13">
+	
+	<text x="10" y="40" id="inputchange" space="preserve" font-family="SimSun" font-size="15" fill="#FFFFFF" stroke="#FF0000" font-weight="bold">调用结果：</text>
+	<text x="50" y="70"  font-family="SimSun" font-size="20" fill="#000000"  font-weight="bold">待导入的EOO文件</text>
+	<text x="210" y="70"  font-family="SimSun" font-size="20" fill="red"  font-weight="bold">（*必选）</text>
+
+	</g>
+	
+
+</svg>

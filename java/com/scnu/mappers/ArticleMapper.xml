@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scnu.mapping.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.scnu.form.Article" >
+    <result column="id" property="id" jdbcType="SMALLINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="classfication" property="classfication" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="pubTime" property="pubTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  
+  <select id="getAllArticles"  resultMap="BaseResultMap">
+  	select * from d_article 
+  </select>
+  
+  <select id="getArticleById"  resultMap="BaseResultMap">
+  	select * from d_article where id=#{id}
+  </select>
+  
+  <insert id="article2DB" >
+  insert into d_article (title,classfication,content,author,pubTime)
+  values (#{title},#{classfication},#{content},#{author},#{pubTime})
+</insert>
+ 
+</mapper>

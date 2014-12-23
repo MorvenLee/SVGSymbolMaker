@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100" height="450">
+
+
+<script type="text/ecmascript">
+
+	var menuName = new Array("操作",
+							"全幅显示","地图平移",
+							"快速放大","快速缩小",
+							"自定义缩放","拉框放大",
+							"图层控制","点选查询",
+							"拉框查询","圆选查询",
+							"前一视图","后一视图",
+							"距离量算","面积量算",
+							"点统计","矩形统计",
+							"绘制专题图(点)",	"绘制专题图(拉框)",
+							"填充点符号",	"填充线符号",
+							"填充面符号","添加注记",	
+							"生成缓冲区","叠合分析",	
+							"空间查找","方位查询",	
+							"网络分析","清理地图",	
+							"数据编辑","制图",	
+							"地理定位","定位查询"
+							);
+	 	
+		function showBG(MenuID,status)
+		{		
+			if(status=="click"){
+				document.getElementById("clicked").setAttribute("visibility", 'visible');
+				document.getElementById("clicked").setAttribute("x", document.getElementById(MenuID).getAttribute("x")-1);	
+				document.getElementById("clicked").setAttribute("y", document.getElementById(MenuID).getAttribute("y"));	
+				}
+
+			if(status=="over"){
+				document.getElementById("over").setAttribute("visibility", 'visible');
+				document.getElementById("over").setAttribute("x", document.getElementById(MenuID).getAttribute("x")-1);	
+				document.getElementById("over").setAttribute("y", document.getElementById(MenuID).getAttribute("y"));	
+				document.getElementById(MenuID).setAttribute("cursor", 'pointer');
+
+				var tmp = MenuID.split("Button");
+				var tmpId = tmp[1];
+				var disY = parseInt(document.getElementById(MenuID).getAttribute("y"))+ 30;
+				
+				document.getElementById("tipsDis").setAttribute("visibility", 'visible');
+				document.getElementById("tipsDis").firstChild.nodeValue  = menuName[tmpId];   		
+				document.getElementById("tipsDis").setAttribute("x", document.getElementById(MenuID).getAttribute("x")-1);	
+				document.getElementById("tipsDis").setAttribute("y", disY);	
+		
+				}
+
+             if(status=="out"){
+				document.getElementById("over").setAttribute("visibility", 'hidden');
+				}
+
+				//alert(document.getElementById("hand").getAttribute("x"));			
+		}
+	
+
+		function  test(){
+		var k=222;
+		var test=document.getElementById("t");
+		alert(test.textContent);
+		test.textContent=k;
+		
+		}
+		
+	function clicktool(who,what) 
+	{
+
+		window.parent.clicktool(who,what);
+	}
+
+	</script>
+<defs>
+<filter id="Gaussian_Blur">
+<feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+</filter>
+</defs>
+
+<g id="board">
+<rect x="13" y="5" fill="#FFFFFF" width="2" height="8"/>
+<rect x="4.5" y="5" fill="#DDDDDD" stroke="#FFFFFF" stroke-width="5" stroke-miterlimit="10" width="61" height="450"/>
+<rect x="10" y="9" fill="#C6C4C4" width="50" height="28"/>
+<line fill="#1C1B1B" stroke="#3D3939" stroke-width="3" stroke-miterlimit="10" x1="10" y1="16" x2="60" y2="16"/>
+<line fill="#1C1B1B" stroke="#3D3939" stroke-width="2" stroke-miterlimit="10" x1="10" y1="23" x2="60" y2="23"/>
+</g>
+
+<rect id="clicked" x="11" y="40" fill="#A1A6A8" width="22" height="22" visibility="hidden"  filter="url(#Gaussian_Blur)"/>
+<rect id="over" x="11" y="40" fill="#A1A6A8" width="22" height="22" visibility="hidden"  filter="url(#Gaussian_Blur)"/>
+
+	
+<image id="Button1" x="12" y="40" overflow="visible" width="32" height="32" onclick="showBG('Button1','click');clicktool(1,'全幅显示');" onmouseover="showBG('Button1','over')" onmouseout="showBG('Button1','out')" xlink:href="Extend.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button2" x="38" y="40" overflow="visible" width="32" height="32" onclick="showBG('Button2','click');clicktool(6,'地图平移')" onmouseover="showBG('Button2','over')" onmouseout="showBG('Button2','out')" xlink:href="hand.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button3" x="12" y="65" overflow="visible" width="32" height="32" onclick="showBG('Button3','click');clicktool(2,'快速放大')" onmouseover="showBG('Button3','over')" onmouseout="showBG('Button3','out')" xlink:href="Bigger.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button4" x="38" y="65" overflow="visible" width="32" height="32" onclick="showBG('Button4','click');clicktool(3,'快速缩小')" onmouseover="showBG('Button4','over')" onmouseout="showBG('Button4','out')" xlink:href="Smaller.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button5" x="12" y="90" overflow="visible" width="32" height="32" onclick="showBG('Button5','click');clicktool(10,'自定义缩放')" onmouseover="showBG('Button5','over')" onmouseout="showBG('Button5','out')" xlink:href="Question.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button6" x="38" y="90" overflow="visible" width="32" height="32" onclick="showBG('Button6','click');clicktool(4,'拉框放大')" onmouseover="showBG('Button6','over')" onmouseout="showBG('Button6','out')" xlink:href="BiggerRECT.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button7" x="12" y="115" overflow="visible" width="32" height="32" onclick="showBG('Button7','click');clicktool(9,'图层控制')" onmouseover="showBG('Button7','over')" onmouseout="showBG('Button7','out')" xlink:href="Layers.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button8" x="38" y="115" overflow="visible" width="32" height="32" onclick="showBG('Button8','click');clicktool(13,'点选查询')" onmouseover="showBG('Button8','over')" onmouseout="showBG('Button8','out')" xlink:href="Arrow.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button9" x="12" y="140" overflow="visible" width="32" height="32" onclick="showBG('Button9','click');clicktool(14,'拉框查询')" onmouseover="showBG('Button9','over')" onmouseout="showBG('Button9','out')" xlink:href="ArrowDashRECT.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button10" x="38" y="140" overflow="visible" width="32" height="32" onclick="showBG('Button10','click');clicktool(22,'圆选查询')" onmouseover="showBG('Button10','over')" onmouseout="showBG('Button10','out')" xlink:href="ArrowDashCIR.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button11" x="12" y="165" overflow="visible" width="32" height="32" onclick="showBG('Button11','click');clicktool(7,'前一视图')" onmouseover="showBG('Button11','over')" onmouseout="showBG('Button11','out')" xlink:href="Backbtn.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button12" x="38" y="165" overflow="visible" width="32" height="32" onclick="showBG('Button12','click');clicktool(8,'后一视图')" onmouseover="showBG('Button12','over')" onmouseout="showBG('Button12','out')" xlink:href="Forwardbtn.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button13" x="12" y="190" overflow="visible" width="32" height="32" onclick="showBG('Button13','click');clicktool(15,'距离量算')" onmouseover="showBG('Button13','over')" onmouseout="showBG('Button13','out')" xlink:href="Ruler.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button14" x="38" y="190" overflow="visible" width="32" height="32" onclick="showBG('Button14','click');clicktool(16,'面积量算')" onmouseover="showBG('Button14','over')" onmouseout="showBG('Button14','out')" xlink:href="Square.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button15" x="12" y="215" overflow="visible" width="32" height="32" onclick="showBG('Button15','click');clicktool(24,'点统计')" onmouseover="showBG('Button15','over')" onmouseout="showBG('Button15','out')" xlink:href="PieChart.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button16" x="38" y="215" overflow="visible" width="32" height="32" onclick="showBG('Button16','click');clicktool(17,'矩形统计')" onmouseover="showBG('Button16','over')" onmouseout="showBG('Button16','out')" xlink:href="ArrowDashPoly.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button17" x="12" y="240" overflow="visible" width="32" height="32" onclick="showBG('Button17','click');clicktool(50,'绘制专题图(点)')" onmouseover="showBG('Button17','over')" onmouseout="showBG('Button17','out')" xlink:href="zhuanti1.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button18" x="38" y="240" overflow="visible" width="32" height="32" onclick="showBG('Button18','click');clicktool(51,'绘制专题图(拉框)')" onmouseover="showBG('Button18','over')" onmouseout="showBG('Button18','out')" xlink:href="zhuanti2.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button19" x="12" y="265" overflow="visible" width="32" height="32" onclick="showBG('Button19','click');clicktool(34,'填充点符号')" onmouseover="showBG('Button19','over')" onmouseout="showBG('Button19','out')" xlink:href="Leaf.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button20" x="38" y="265" overflow="visible" width="32" height="32" onclick="showBG('Button20','click');clicktool(36,'填充线符号')" onmouseover="showBG('Button20','over')" onmouseout="showBG('Button20','out')" xlink:href="RedLine.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button21" x="12" y="290" overflow="visible" width="32" height="32" onclick="showBG('Button21','click');clicktool(37,'填充面符号')" onmouseover="showBG('Button21','over')" onmouseout="showBG('Button21','out')" xlink:href="PurpleArea.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button22" x="38" y="290" overflow="visible" width="32" height="32" onclick="showBG('Button22','click');clicktool(35,'添加注记')" onmouseover="showBG('Button22','over')" onmouseout="showBG('Button22','out')" xlink:href="TFront.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button23" x="12" y="315" overflow="visible" width="32" height="32" onclick="showBG('Button23','click');clicktool(23,'缓冲区')" onmouseover="showBG('Button23','over')" onmouseout="showBG('Button23','out')" xlink:href="Blocks.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button24" x="38" y="315" overflow="visible" width="32" height="32" onclick="showBG('Button24','click');window.open('/SircNancy/integration/menu2/page/Overlap.html');" onmouseover="showBG('Button24','over')" onmouseout="showBG('Button24','out')" xlink:href="OverlayPoly.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button25" x="12" y="340" overflow="visible" width="32" height="32" onclick="showBG('Button25','click');clicktool(32,'空间查找')" onmouseover="showBG('Button25','over')" onmouseout="showBG('Button25','out')" xlink:href="BiggerRIV.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button26" x="38" y="340" overflow="visible" width="32" height="32" onclick="showBG('Button26','click');clicktool(41,'方位查询')" onmouseover="showBG('Button26','over')" onmouseout="showBG('Button26','out')" xlink:href="Picture.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button27" x="12" y="365" overflow="visible" width="32" height="32" onclick="showBG('Button27','click');clicktool(29,'网络分析')" onmouseover="showBG('Button27','over')" onmouseout="showBG('Button27','out')" xlink:href="Recycle.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button28" x="38" y="365" overflow="visible" width="32" height="32" onclick="showBG('Button28','click');clicktool(39,'清理地图')" onmouseover="showBG('Button28','over')" onmouseout="showBG('Button28','out')" xlink:href="Eraser.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button29" x="12" y="390" overflow="visible" width="32" height="32" onclick="showBG('Button29','click');clicktool(38,'数据编辑')" onmouseover="showBG('Button29','over')" onmouseout="showBG('Button29','out')" xlink:href="Pencil.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button30" x="38" y="390" overflow="visible" width="32" height="32" onclick="showBG('Button30','click');reflash()" onmouseover="showBG('Button30','over')" onmouseout="showBG('Button30','out')" xlink:href="Save.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<image id="Button31" x="12" y="415" overflow="visible" width="32" height="32" onclick="showBG('Button31','click');clicktool(25,'地理定位')" onmouseover="showBG('Button31','over')" onmouseout="showBG('Button31','out')" xlink:href="Rotate.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+<image id="Button32" x="38" y="415" overflow="visible" width="32" height="32" onclick="showBG('Button32','click');clicktool(31,'定位查询')" onmouseover="showBG('Button32','over')" onmouseout="showBG('Button32','out')" xlink:href="Change.svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" />
+
+<text id="tipsDis" x="15" y="20" visibility="hidden" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+</svg>

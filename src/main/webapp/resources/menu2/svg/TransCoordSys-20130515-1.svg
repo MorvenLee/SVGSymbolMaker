@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="720" height="750" onload="initialize(evt)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="0" y="0" rx="15" ry="15" width="712" height="750" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect x="145" y="96" width="186" height="270" rx="5" ry="5" fill="#E6E6E6" stroke="#CCCCCC" stroke-width="2" transform="matrix(3.632,0,0,2.649,-507.574,-242.2)" xmlns="http://www.w3.org/2000/svg" />
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+
+	<script type="text/ecmascript">
+		<![CDATA[	
+		
+		var myMapApp = new mapApp(false,undefined);
+		var textbox1;
+		var textbox2;
+		var textbox=new array();
+		//var textbutton=new array();
+		var textboxNUM;
+		var textboxNUM2；
+		var cpNum;//控制点个数
+		//var textbuttonNUM;
+		
+		
+		var textbutton1;
+		var textbutton2;
+		
+		
+		
+		function initialize(evt) {
+		            //resizeTo(760,440)
+			    textboxNUM=12;
+			    textboxNUM2=12;
+			    cpNum = 3;
+
+			    textbuttonNUM=3;
+
+		           //styles
+		            var textStyles = {"font-family":"宋体","font-size":15,"fill":"black"};
+		            var boxStyles = {"fill":"#E9E9E9","stroke":"black","stroke-width":1.5};
+		            var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		            var textselBoxStyles = {"fill":"blue","opacity":0.5};
+		 	//styling parameters
+			var selBoxCellHeight = 16;
+			var selBoxTextpadding = 3;
+			var selBoxtextStyles = {"font-family":"宋体","font-size":11,"fill":"dimgray"};
+			var selBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+			var selBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+			var selBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+			var selBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.3};
+			var selBoxTriangleStyles = {"fill":"dimgray"};	
+
+   
+			//buttons style
+			var buttonTextStyles = {"font-family":"宋体","fill":"navy","font-size":12};
+			var buttonStyles = {"fill":"lightsteelblue"};
+			var shadeLightStyles = {"fill":"white"};
+			var shadeDarkStyles = {"fill":"navy"};
+			var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+			var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+			var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+								
+							            
+		        //textbox_x
+				var textboxX = 180;
+				var textYOffset = 16;//字体距离textbox上框的高度
+		        //checkbox_x
+				var checkboxX = 180;				
+				//labeltext styles
+				//var labeltextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":15};//Arial,Helvetica，360浏览器不支持
+				var labeltextStyles = {"font-family":"宋体","fill":"dimgray","font-size":15};				
+				//variables for label placement
+				var labelDistance = 12;
+				var labelYOffset = 5.5;
+			var Condition1 = ["WGS84","xian80","Beijing54"];	
+			var Condition2 = ["WGS84","xian80","Beijing54"];	
+			selCondition1 = new selectionList("Condition1","Condition1",Condition1,80,200,46,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowCondition);
+			selCondition2 = new selectionList("Condition2","Condition2",Condition2,80,500,46,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowCondition);
+			
+									
+			//create new textboxes
+			textbox1 = new textbox("textbox1","textbox","",300,90,100,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox2 = new textbox("textbox2","textbox","",300,220,100,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox3 = new textbox("textbox3","textbox","",300,370,100,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox4 = new textbox("textbox4","textbox","",300,500,100,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			
+			textbox5 = new textbox("textbox5","textbox","",300,90,130,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox6 = new textbox("textbox6","textbox","",300,220,130,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox7 = new textbox("textbox7","textbox","",300,370,130,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox8 = new textbox("textbox8","textbox","",300,500,130,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			
+			textbox9 = new textbox("textbox9","textbox","",300,90,160,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox10 = new textbox("textbox10","textbox","",300,220,160,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox11 = new textbox("textbox11","textbox","",300,370,160,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox12 = new textbox("textbox12","textbox","",300,500,160,120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			uploadtext = new textbox("uploadtext","uploadtext","",300,250,635,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+
+			//create new buttons
+			textbutton1 = new button("textbutton1","textbuttons",buttonPressed,"rect","重置",undefined,220,690,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			textbutton2 = new button("textbutton2","textbuttons",buttonPressed,"rect","提交",undefined,360,690,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			textbutton3 = new button("textbutton3","textbuttons",buttonPressed,"rect","..浏览",undefined,430,635,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			
+			//Searchbutton1 = new button("Searchbutton1","textbuttons",buttonPressed,"rect","开始检索",undefined,40,385,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			//ReInputbutton2 = new button("ReInputbutton2","textbuttons",buttonPressed,"rect","重新输入",undefined,160,385,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+
+
+				//a radio box group
+				var radioGroupDate = new radioButtonGroup("radioGroupDate",setDataRadio);
+
+		
+			}
+			
+function ShowCondition(selBoxName,conditionNr,arrayVal) {
+	document.getElementById("inputchange").firstChild.nodeValue = "Your selection is:" + arrayVal;
+
+}
+			
+			function setDataRadio(cbId,radioId,label) {
+				document.getElementById("inputchange").firstChild.nodeValue = "Your selection is: '"+label+"'";
+			}
+			
+		
+	
+		
+		function getTextInfo(textboxId,value,changeType) {
+		
+			document.getElementById("inputchange").firstChild.nodeValue = "Content of "+textboxId.id+" is \""+value+"\"";
+			
+			//setday(document.getElementById("textboxDate1"))；
+		}
+		
+		function buttonPressed(buttonId,evt,textVal) {
+			document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+		}
+		
+		]]>
+		function addfile()
+		{
+		////////显示样式
+		var textStyles = {"font-family":"宋体","font-size":15,"fill":"black"};
+		            var boxStyles = {"fill":"#E9E9E9","stroke":"black","stroke-width":1.5};
+		            var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		            var textselBoxStyles = {"fill":"blue","opacity":0.5};
+		          
+			//buttons style
+			var buttonTextStyles = {"font-family":"宋体","fill":"navy","font-size":12};
+			var buttonStyles = {"fill":"lightsteelblue"};
+			var shadeLightStyles = {"fill":"white"};
+			var shadeDarkStyles = {"fill":"navy"};
+			var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+			var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+			var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};					
+							            
+		        //textbox_x
+				var textboxX = 180;
+				var textYOffset = 16;//字体距离textbox上框的高度
+		        //checkbox_x
+				var checkboxX = 180;				
+				//labeltext styles
+				//var labeltextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":15};//Arial,Helvetica，360浏览器不支持
+				var labeltextStyles = {"font-family":"宋体","fill":"dimgray","font-size":15};				
+				//variables for label placement
+				var labelDistance = 12;
+				var labelYOffset = 5.5;
+               ///////////生成新控件
+		//textboxNUM++;
+		//textbutton++;
+		//alert(textboxNUM);
+		textbox[textboxNUM]= "textbox"+textboxNUM;
+		//textbutton[textbuttonNUM]= "textbutton"+textbuttonNUM;
+		//alert(textbox[textboxNUM]);
+		
+		alert(cpNum);
+		//if(textboxNUM2!=26){
+		if(cpNum!=10){
+			textbox[textboxNUM++] = new textbox("textbox"+textboxNUM,"textbox","",300,90,160+30*(textboxNUM2-11),120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox[textboxNUM++] = new textbox("textbox"+textboxNUM,"textbox","",300,220,160+30*(textboxNUM2-11),120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox[textboxNUM++] = new textbox("textbox"+textboxNUM,"textbox","",300,370,160+30*(textboxNUM2-11),120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox[textboxNUM++] = new textbox("textbox"+textboxNUM,"textbox","",300,500,160+30*(textboxNUM2-11),120,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textboxNUM2++;
+			cpNum ++;
+		}
+		//textbutton[textbuttonN++] = new button("textbutton"+textbuttonNUM,"textbuttons",buttonPressed,"rect","..浏览",undefined,420,135+40*(textboxNUM-2),75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+		else alert("您不能再添加！请提交当前文档后再添加！"); 
+		//document.getElementById("test").setAttribute("fill", "yellow") ;	
+		
+		}
+	</script>
+	
+
+	<text x="30" y="40" id="inputchange" space="preserve" font-family="宋体" font-size="15" fill="#FFFFFF" stroke="#FF0000" font-weight="bold">调用结果：</text>
+	<text x="220" y="28"  font-family="宋体" font-size="15" fill="#000000"  font-weight="bold">请输入至少三个控制点的坐标</text>
+	<text x="30" y="650"  font-family="宋体" font-size="15" fill="black"  font-weight="bold">请选择要转换坐标的图形文件：</text>
+					
+	<g font-family="宋体" font-size="13" transform="translate(0,150)">
+	<text x="150" y="95"  font-family="宋体" font-size="20" fill="blue"  font-weight="bold">x</text>
+	<text x="280" y="95"  font-family="宋体" font-size="20" fill="blue"  font-weight="bold">y</text>
+	<text x="430" y="95"  font-family="宋体" font-size="20" fill="blue"  font-weight="bold">x</text>
+	<text x="560" y="95"  font-family="宋体" font-size="20" fill="blue"  font-weight="bold">y</text>
+
+	<text x="80" y="60"  font-family="宋体" font-size="15" fill="black"  font-weight="bold">请选择源坐标系：</text>
+	<text x="360" y="60"  font-family="宋体" font-size="15" fill="black"  font-weight="bold">请选择目的坐标系：</text>
+
+
+	</g>
+	<g id="textbox" transform="translate(0,150)"/>
+	<g id="add" transform="translate(0,150)">
+<rect id="addbutton" x="630" y="110"  width="18" height="3" fill="red"  stroke-width="2"  onclick="addfile()" xmlns="http://www.w3.org/2000/svg" />
+<rect id="addbutton" x="638" y="103"  width="3" height="18" fill="red"  stroke-width="2"  onclick="addfile()" xmlns="http://www.w3.org/2000/svg" />
+	</g>
+</svg>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>请上传图层文件</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<style type="text/css">
+<!--
+.container {
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:auto;
+	margin-bottom:auto;
+}
+-->
+</style>
+</head>
+<script type="text/javascript">
+function check()
+{
+  if(document.all.graphFile.value=="")
+   {
+		alert("请选择待SVG文件！");
+		document.all.graphFile.focus();
+		return false;   		
+   }
+   
+   
+   var	str = document.all.graphFile.value;
+   var flag=0;
+	var t=str.length-1;
+   for(var i=t;i>=0;i=i-1)
+	{
+		val = str.charAt(i);
+		if(val==".")
+		{
+			var temp="";
+			for(var j=i+1;j<str.length;j=j+1)
+			{
+				val = str.charAt(j);
+				temp=temp+val;
+			}
+			if (temp != "svg")
+			{
+				alert("不好意思，只能上传svg文件!");
+				return false;
+			}
+			else if (temp == "svg")
+			{
+				return true;
+			}
+			flag=1;
+
+		}
+    }
+    if(flag==0)
+    {
+				alert("该文件名缺少后缀！");
+				
+				document.all.graphFile.focus();
+				return false;    	
+    } 
+}
+</script>
+<body >
+<br>
+<br><br>
+<div class="container">
+<form action="../page/selectSVG.jsp" method="post" enctype="multipart/form-data" name="form1" onSubmit="return check();" target="_self">
+<p>
+           请上传图层文件：<br><input name="graphFile" type="file" id="graphFile"> 
+           <br>
+           <input type=submit value=submit><input type=reset value=reset >
+</p>
+</form>
+</div>
+</body>
+</html>

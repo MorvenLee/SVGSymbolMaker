@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="720" height="600" onload="initialize(evt)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect id="container" x="1" y="0" rx="0" ry="0" width="720" height="600" fill="#084573" fill-opacity=".1" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+
+<svg  id="SvgLev1">
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+
+	<script type="text/ecmascript">
+		<![CDATA[	
+		
+		var myMapApp = new mapApp(false,undefined);
+		var textbox1;
+		
+		
+		var textbutton1;
+		var textbutton2;
+		
+		
+		function initialize(evt)
+		{
+			//初始化html父页面的js文件
+			window.parent.loadScr("../js/watermarkEmbed_html.js","watermarkEmbed");
+			var tmp = window.parent.document;
+			//alert(tmp);
+			//window.parent.initPara();//初始化html中的参数
+			
+			
+			var svgDoc = evt.target.ownerDocument ;
+			svgDoc.svgWnd = window ; //这里人为进行设定，以便在html中的第一种交互方式中可以取的到svg的window对象	
+			
+			init_interactivebox(evt);
+			
+		
+			var MethodSvgDoc = window.parent.document.left.getSVGDocument();	
+			var MainSvgDoc = window.parent.document.TransBoard.getSVGDocument();	
+			var MenuTypeSvgDoc = window.parent.document.watermarkType.getSVGDocument();	
+			
+			var method = MethodSvgDoc.getElementById("disMethod_val").firstChild.nodeValue ;
+				
+				//alert(MainSvgDoc);
+			
+				if(method=="lineSplit")
+				{
+					MainSvgDoc.getElementById("disMethod_val").firstChild.nodeValue = "lineSplit";
+					MenuTypeSvgDoc.getElementById("disMethod").firstChild.nodeValue = "曲线分割法";
+				}
+				else if(method=="featurenode")
+				{
+					MainSvgDoc.getElementById("disMethod_val").firstChild.nodeValue = "featurenode";
+					MenuTypeSvgDoc.getElementById("disMethod").firstChild.nodeValue = "特征点法";
+				}
+				else if(method=="promote")
+				{
+					MainSvgDoc.getElementById("disMethod_val").firstChild.nodeValue = "promote";
+					MenuTypeSvgDoc.getElementById("disMethod").firstChild.nodeValue = "提升空间域盲水印算法";
+				}			
+			
+					
+
+		}
+		
+		
+		function init_interactivebox(evt) {
+		            //resizeTo(760,440)
+		            //styles
+		            var textStyles = {"font-family":"宋体","font-size":15,"fill":"black"};
+		            var boxStyles = {"fill":"#E9E9E9","stroke":"black","stroke-width":1.5};
+		            var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		            var textselBoxStyles = {"fill":"blue","opacity":0.5};
+		          
+			//buttons style
+			var buttonTextStyles = {"font-family":"宋体","fill":"navy","font-size":12};
+			var buttonStyles = {"fill":"lightsteelblue"};
+			var shadeLightStyles = {"fill":"white"};
+			var shadeDarkStyles = {"fill":"navy"};
+			var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+			var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+			var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+								
+							            
+		        //textbox_x
+				var textboxX = 320;
+				var textYOffset = 16;//字体距离textbox上框的高度
+		        //checkbox_x
+				var checkboxX = 180;				
+				//labeltext styles
+				//var labeltextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":15};//Arial,Helvetica，360浏览器不支持
+				var labeltextStyles = {"font-family":"宋体","fill":"dimgray","font-size":15};				
+				//variables for label placement
+				var labelDistance = 12;
+				var labelYOffset = 5.5;
+			
+			
+									
+			//create new textboxes
+			textbox1 = new textbox("textbox1","textbox","",300,textboxX,252,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox2 = new textbox("textbox2","textbox","",300,textboxX,292,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox3 = new textbox("textbox3","textbox","",300,textboxX,332,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox4 = new textbox("textbox4","textbox","",300,textboxX,372,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			//textbox5 = new textbox("textbox5","textbox5","",300,textboxX,252,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			//textbox6 = new textbox("textbox6","textbox6","",300,textboxX,292,150,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			
+			//create new buttons
+			//textbutton1 = new button("textbutton1","textbuttons",buttonPressed,"rect","..浏览",undefined,500,90,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			textbutton2 = new button("textbutton2","textbuttons",buttonPressed,"rect","重置",undefined,220,430,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			textbutton3 = new button("textbutton3","textbuttons",buttonPressed,"rect","提交",undefined,360,430,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			//textbutton4 = new button("textbutton4","textbuttons",buttonPressed,"rect","提交",undefined,500,170,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+
+			//重置按钮添加链接
+			textbutton2.makeLinkButton("../svg/watermarkEmbed.svg","self","_parent");
+		
+		}
+			
+
+
+	
+		
+		function getTextInfo(textboxId,value,changeType) {
+		
+			document.getElementById("inputchange").firstChild.nodeValue = "Content of "+textboxId+" is \""+value+"\"";
+			
+			if(textboxId.id=="textbox1")
+			{
+				document.getElementById("userInfo_Val").firstChild.nodeValue = value;
+			}
+			else if(textboxId.id=="textbox2")
+			{
+				document.getElementById("sPass_Val").firstChild.nodeValue = value;
+			}
+			else if(textboxId.id=="textbox3")
+			{
+				document.getElementById("alias_Val").firstChild.nodeValue = value;
+			}
+			else if(textboxId.id=="textbox4")
+			{
+				document.getElementById("kPass_Val").firstChild.nodeValue = value;
+			}
+			
+			
+			//setday(document.getElementById("textboxDate1"))；
+		}
+		
+		function buttonPressed(buttonId,evt,textVal) {
+			document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+			
+			if(buttonId=="textbutton2")//重置
+			{
+				//var tmp = document.getElementById("textbutton2");
+				//alert(document.getElementById("textbutton2"));
+				//window.parent.makeLink(document.getElementById("textbutton2"), "../svg/TransEooGML.svg");
+				//textbutton2.makeLinkButton("../svg/TransEooGML.svg","self","_parent");//加到init中
+			}
+			else if(buttonId=="textbutton3")//提交
+			{
+				var svgfileName = document.getElementById("svgfileName_val").firstChild.nodeValue.trim();
+
+				
+				var userInfo_Val = document.getElementById("userInfo_Val").firstChild.nodeValue.trim();				
+				var sPass_Val = document.getElementById("sPass_Val").firstChild.nodeValue.trim();	
+				var alias_Val = document.getElementById("alias_Val").firstChild.nodeValue.trim();					
+				var kPass_Val = document.getElementById("kPass_Val").firstChild.nodeValue.trim();	
+				
+				
+				document.getElementById("disOriImgname").firstChild.nodeValue = "原图" +　svgfileName;
+				
+				document.getElementById("disUserInfo").firstChild.nodeValue = "用户信息：" + userInfo_Val;
+				document.getElementById("disZSAlias").firstChild.nodeValue = "证书别名：" + alias_Val;
+				
+				
+				if(svgfileName=="")
+				{
+					alert("请先上传文件！");
+					return false;
+				}
+				
+				if(userInfo_Val=="" || sPass_Val=="" || alias_Val=="" || kPass_Val=="")
+				{
+					alert("嵌入的用户信息、密码和证书别名不能为空，请您输入！");
+					return false;
+				}
+				
+				var method = document.getElementById("disMethod_val").firstChild.nodeValue ;
+				
+				window.parent.transSubmit(method,svgfileName,userInfo_Val,sPass_Val,alias_Val,kPass_Val);
+			}
+			
+		}
+		
+		]]>
+	</script>
+	<g id="textbox" />
+	
+		<g id="textbuttons" />
+	
+		
+	<g font-family="宋体" font-size="13">
+		<text x="280" y="50"  font-family="宋体" font-size="20" font-weight="bold" fill="darkblue">嵌入水印</text>
+		<text  visibility="hidden" x="30" y="50" id="disMethod_val"  font-family="宋体" font-size="20" font-weight="bold" fill="darkblue">lineSplit</text>		
+		
+	
+	<text x="450" y="40" id="inputchange" visibility="hidden" space="preserve" font-family="宋体" font-size="15" fill="#FFFFFF" stroke="#FF0000" font-weight="bold">调用结果：</text>
+
+	<text x="150" y="270"  font-family="宋体" font-size="18" fill="#000000">嵌入的用户信息：</text>
+	<text x="150" y="310"  font-family="宋体" font-size="18" fill="#000000">证书库密码：</text>
+	<text x="150" y="350"  font-family="宋体" font-size="18" fill="#000000">证书别名：</text>
+	<text x="150" y="390"  font-family="宋体" font-size="18" fill="#000000">证书密码：</text>
+
+
+	</g>
+	
+		<g id="DragContainer">
+		<text x="50" y="90"  font-family="SimSun" font-size="16" fill="#000000"  font-weight="bold">拽件待加水印的svg文件和用户的公钥证书库到此处</text>
+		<text x="440" y="90"  font-family="SimSun" font-size="16" fill="red"  font-weight="bold">（*必选）</text>
+		<rect id="RectContainer" x="100" y="100" width="386" height="121" rx="5" ry="5" fill="white" stroke="red" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" />		
+		<g id="fileList"></g>
+		
+	</g>
+	
+	
+	<text id="filepath_val" visibility="hidden" x="32" y="170" style="text-anchor:start;font-size:16;font-family:SimSun;fill:red"> </text>
+	<text id="upLoadPath_val" visibility="hidden" x="32" y="200" style="text-anchor:start;font-size:16;font-family:SimSun;fill:red"> </text>
+	<text id="svgfileName_val" visibility="hidden" x="32" y="230" style="text-anchor:start;font-size:16;font-family:SimSun;fill:red"> </text>
+	
+
+	<text id="userInfo_Val" visibility="hidden" x="480" y="268" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>	
+	<text id="sPass_Val" visibility="hidden" x="480" y="308" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	<text id="alias_Val" visibility="hidden" x="480" y="348" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	<text id="kPass_Val" visibility="hidden" x="480" y="398" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>		
+
+	
+
+</svg>	
+
+
+<svg  id="SvgLev2" visibility="hidden" y="18" height="390">
+<g  id="content1" >	
+
+	<text id="disDownTip" x="52" y="60" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	
+	<text id="disOriImgname"  x="122" y="90" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black">原图：</text>
+	<text id="disZSKname"  x="122" y="110" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black">证书库名称：</text>
+	<text id="disUserInfo"  x="122" y="130" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black">用户信息：</text>
+	<text id="disZSAlias"  x="122" y="150" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black">证书别名：</text>
+
+
+	<text id="disDownInfo" x="72" y="210" style="text-anchor:start;font-size:20;font-family:SimSun;fill:blue"> </text>
+
+</g>
+
+</svg>
+
+
+</svg>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="215" height="310" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect id="leftmenu" x="1" y="0" rx="0" ry="0" width="215" height="310" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect id="leftmenu" x="8" y="1" rx="0" ry="0" width="200" height="295" fill="white" fill-opacity="1" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+
+
+	<script type="text/ecmascript">
+		<![CDATA[
+		
+	function onzoom(flag) 
+	{
+   
+		window.parent.onzoom(flag);
+	}		
+		
+		]]>
+	</script>
+	
+	<g font-family="宋体" font-size="13">
+
+	</g>
+
+<text id="Layer1" x="10" y="15" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+
+<text id="Layer12" x="12" y="30" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+
+<g id="Layer2" visibility="hidden">
+<image x="82" y="50" width="17" height="17" xlink:href="../../../images/zoom/zoom-plus.png"></image>
+<image x="82" y="68" width="17" height="103" xlink:href="../../../images/zoom/zoom-bg.png"></image>
+<image x="82" y="173" width="17" height="17" xlink:href="../../../images/zoom/zoom-minus.png"></image>
+
+<image x="88" y="160" width="17" height="9" xlink:href="../../../images/zoom/slider.png"></image>
+
+
+<rect x="82" y="50" width="17" height="17" fill="white" fill-opacity="0" onclick='onzoom(1)'/>
+</g>
+
+</svg>

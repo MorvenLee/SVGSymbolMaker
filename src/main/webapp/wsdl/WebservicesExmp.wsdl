@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webservices.scnu.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://webservices.scnu.com" xmlns:intf="http://webservices.scnu.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://webservices.scnu.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="sayhello">
+    <complexType>
+     <sequence>
+      <element name="s" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="sayhelloResponse">
+    <complexType>
+     <sequence>
+      <element name="sayhelloReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="sayhelloResponse">
+
+      <wsdl:part element="impl:sayhelloResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="sayhelloRequest">
+
+      <wsdl:part element="impl:sayhello" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="WebservicesExmp">
+
+      <wsdl:operation name="sayhello">
+
+         <wsdl:input message="impl:sayhelloRequest" name="sayhelloRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:sayhelloResponse" name="sayhelloResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="WebservicesExmpSoapBinding" type="impl:WebservicesExmp">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="sayhello">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="sayhelloRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="sayhelloResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="WebservicesExmpService">
+
+      <wsdl:port binding="impl:WebservicesExmpSoapBinding" name="WebservicesExmp">
+
+         <wsdlsoap:address location="http://localhost:8080/scnu/services/WebservicesExmp"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+
+<svg width="640" height="480" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<script type="text/ecmascript">
+		<![CDATA[
+		var disMenuNum=0;
+		var now_menuColor ='#4671D5';
+		var MenuColor=new Array();
+		 MenuColor[0] = "#E70031";
+		 MenuColor[1] = "#00AC6B";
+		 MenuColor[2] = "#C6F500";
+		 MenuColor[3] = "#960038";
+		 
+		 MenuColor[4] = "#4671D5";
+		 MenuColor[5] = "#4671D5";	
+		 	
+		function changecolor(foucsMenuNum,mouseStatus)
+		{
+		
+			if(disMenuNum==foucsMenuNum)
+			{
+				return 1;
+			}
+			
+			
+
+			if(mouseStatus=='click')
+			{
+
+				document.getElementById("Menu"+disMenuNum).setAttribute("fill", MenuColor[disMenuNum]  ) ;	
+				//alert("Menu"+disMenuNum);
+				document.getElementById("Menu"+foucsMenuNum).setAttribute("fill", '#4671D5'   ) ;	
+				//alert("Menu"+foucsMenuNum);
+				disMenuNum = foucsMenuNum;
+			}
+			else if(mouseStatus=='on')
+			{
+			 	now_menuColor = document.getElementById("Menu"+foucsMenuNum).getAttribute("fill");
+				//alert(foucsMenuNum);
+				document.getElementById("Menu"+foucsMenuNum).setAttribute("fill", '#4671D5'  ) ;	
+		
+			}
+			else
+			{
+				document.getElementById("Menu"+foucsMenuNum).setAttribute("fill", MenuColor[foucsMenuNum]  ) ;	
+		
+			}
+		}
+		
+		]]>
+	</script>
+		<defs>
+<linearGradient id="SVGID_L3_">
+			<stop offset="0.0182" style="stop-color:#0F2641" />
+			<stop offset="0.2273" style="stop-color:#2EA7E0" />
+			<stop offset="0.6485" style="stop-color:#2C508B" />
+			<stop offset="0.9333" style="stop-color:#0F2641" />
+</linearGradient>
+	</defs>
+	<rect id="Menu0" x="145" y="96" onclick="changecolor('0','click')"  onmouseover="changecolor('0','on')" onmouseout="changecolor('0','off')" cursor="auto" width="210" height="150"  fill="#E70031" stroke="#ACA156" stroke-width="2" transform="matrix(0.361,0,0,0.337,-36.107,-6.678)" stroke-linecap="butt" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg" />
+<a xlink:href="../svg/TransEooGML.svg" target="TransBoard" fill="#0066CC" stroke="#0066CC" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<text id="MenuText1" onclick="changecolor('0','click')" onmouseover="changecolor('0','on')" onmouseout="changecolor('0','off')" cursor="auto" x="179" y="55" space="preserve" font-family="宋体" font-size="7" fill="#000000" stroke="#000000" stroke-opacity=".5" baseline-shift="baseline" stroke-width="0.2" transform="matrix(1,0,0,1,0,0) matrix(1.861,0,0,2.11,-310.831,-59.558)" xlink:href="http://sirc.scnu.edu.cn/intro.htm" target="_blank">
+<tspan>
+		E00 to GML</tspan>
+</text>
+</a>
+
+	<rect id="Menu1" x="155" y="96" onclick="changecolor('1','click')"  onmouseover="changecolor('1','on')" onmouseout="changecolor('1','off')" cursor="auto" width="280" height="150" fill="#00AC6B" stroke="#CCCCCC" stroke-width="2" transform="matrix(0.366,0,0,0.337,38.648,-6.678)" stroke-linecap="butt" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg" />
+<a xlink:href="../svg/TransMapInfoGML.svg" target="TransBoard" fill="#0066CC" stroke="#0066CC" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+	<text x="183" y="55" onclick="changecolor('1','click')" onmouseover="changecolor('1','on')" onmouseout="changecolor('1','off')" cursor="auto" space="preserve" font-family="宋体" font-size="7" fill="#000000" stroke="#000000" stroke-opacity=".5" baseline-shift="baseline" stroke-width="0.25" transform="matrix(1.861,0,0,2.096,-236.831,-58.925)" xlink:href="http://sirc.scnu.edu.cn/intro.htm" target="_blank" letter-spacing="0">
+		<tspan>
+		Mapinfo to GML</tspan>
+	</text>
+</a>
+	<rect id="Menu2" x="235" y="96" onclick="changecolor('2','click')"  onmouseover="changecolor('2','on')" onmouseout="changecolor('2','off')" cursor="auto" width="220" height="150"  fill="#C6F500" stroke="#CCCCCC" stroke-width="2" transform="matrix(0.393,0,0,0.337,109.338,-7.678)" stroke-linecap="butt" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg" />
+	<rect id="Menu3" x="465" y="96" onclick="changecolor('3','click')"  onmouseover="changecolor('3','on')" onmouseout="changecolor('3','off')" cursor="auto" width="220" height="150" fill="#960038" stroke="#CCCCCC" stroke-width="2" transform="matrix(0.393,0,0,0.337,109.338,-7.678)" stroke-linecap="butt" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg" />
+<a xlink:href="../svg/TransShapeGML.svg" target="TransBoard" fill="#0066CC" stroke="#0066CC" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<text onclick="changecolor('2','click')" onmouseover="changecolor('2','on')" onmouseout="changecolor('2','off')" cursor="auto" x="200" y="55" space="preserve" font-family="宋体" font-size="7" fill="#000000" stroke="#000000" stroke-opacity=".5" baseline-shift="baseline" stroke-width="0.1" transform="matrix(1.861,0,0,2.054,-163.831,-56.783)" xlink:href="http://sirc.scnu.edu.cn/intro.htm" target="_blank" font-stretch="7">
+<tspan>
+		Shape to GML</tspan>
+</text>
+</a>
+<a xlink:href="../svg/TransGMLSVG.svg" target="TransBoard" fill="#0066CC" stroke="#0066CC" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<text onclick="changecolor('3','click')" onmouseover="changecolor('3','on')" onmouseout="changecolor('3','off')" cursor="auto" x="205" y="55" space="preserve" font-family="宋体" font-size="7" fill="#000000" stroke="#000000" stroke-opacity=".5" baseline-shift="baseline" stroke-width="0.1" transform="matrix(1.861,0,0,1.96,-80.831,-53.592)" xlink:href="http://sirc.scnu.edu.cn/intro.htm" target="_blank" xmlns="http://www.w3.org/2000/svg">
+<tspan>
+		GML to SVG</tspan>
+</text>
+</a>
+</svg>

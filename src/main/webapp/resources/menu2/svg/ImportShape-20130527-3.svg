@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="720" height="340" onload="initialize(evt)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:batik="http://xml.apache.org/batik/ext">
+<rect x="0" y="0" rx="15" ry="15" width="712" height="540" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect x="16" y="14" width="680" height="511" rx="10" ry="10" fill="#E6E6E6" stroke="#CCCCCC" stroke-width="2" xmlns="http://www.w3.org/2000/svg" />
+
+<svg  id="SvgLev1">
+
+
+<style type="text/css">
+
+			.progressBar{
+				width: 200px;
+				height: 20px;
+				border: 1px solid #000;
+				-moz-border-radius: 8px;
+				margin-bottom: 10px;
+			}
+			.progressBar p{
+				margin: 0px;
+				width: 20px;
+				height: 20px;
+				-moz-border-radius: 8px;
+				background-color: #00FF00;
+			}
+		</style>
+
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+	
+	<script type="text/ecmascript" xlink:href="../js/scrollbar.js"/>
+	
+
+
+	<script type="text/ecmascript">
+		<![CDATA[	
+		
+		var myMapApp = new mapApp(false,undefined);
+		var textbox1;
+		
+		
+		var textbutton1;
+		var textbutton2;
+		
+		
+		
+		var selattr;
+
+
+		var selattryear;
+		var selattrarea;			
+		
+		
+		//arrays for selectionList data
+		var attrArr = new Array();	
+
+		var attryearArr = new Array();	
+		var attrareaArr = new Array();	
+
+		var attrArr_val = new Array();	
+
+		var attryearArr_val = new Array();	
+		var attrareaArr_val = new Array();	
+		
+		var scrolledObject1;
+		
+		function initialize(evt)
+		{
+			//初始化html父页面的js文件
+		
+			window.parent.loadScr("../js/ImportShape_html.js","ImportShape");
+			var tmp = window.parent.document;
+			//alert(tmp);
+			//window.parent.initPara();//初始化html中的参数
+			
+			
+			var svgDoc = evt.target.ownerDocument ;
+			svgDoc.svgWnd = window ; //这里人为进行设定，以便在html中的第一种交互方式中可以取的到svg的window对象	
+			
+			
+		}
+	
+//nancy add0423
+function getAttrdata(filePath) 
+{
+	//alert(filePath);
+	var xmlHttpReq = new XMLHttpRequest();
+	
+
+	var fileName = filePath;
+	//alert(fileName); 
+	
+	var url = "../../dataProcess/ReadAttrdata.jsp?fileName=" + fileName + "&type=" + "dbf" ;
+	xmlHttpReq.open("GET",url,true);
+	xmlHttpReq.onreadystatechange = function() { setAttrArr(xmlHttpReq);};
+	xmlHttpReq.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpReq.send(null);
+}
+
+function　setAttrArr(xmlHttpReq)
+{
+	if(xmlHttpReq.readyState == 4)
+	{
+		if(xmlHttpReq.status == 200)
+		{
+			var rt = xmlHttpReq.responseText;
+			//alert(rt);
+			
+				var tmp = rt.split(";");//tmp[0]和tmp[1]是一样的，四个选项都一样，都用tmp[0]
+
+				var tmp1 = tmp[0].split("|");
+			
+				var j=0;
+				attrArr[j] = "自动";
+				attrArr_val[j] = -1;
+				j++;
+			
+				for (var i=0; i<tmp1.length; i++){
+					attrArr[j] = tmp1[i] ;
+					attrArr_val[j] = tmp1[i];
+					j++;
+				}
+			
+				
+				//年份
+				j=0;
+				attryearArr[j] = "不选年份";
+				attryearArr_val[j] = -1;
+				j++;
+			
+				for (var i=0; i<tmp1.length; i++){
+					attryearArr[j] = tmp1[i] ;
+					attryearArr_val[j] = tmp1[i];
+					j++;
+				}
+				
+				//年份
+				j=0;
+				attrareaArr[j] = "不选地域";
+				attrareaArr_val[j] = -1;
+				j++;
+			
+				for (var i=0; i<tmp1.length; i++){
+					attrareaArr[j] = tmp1[i] ;
+					attrareaArr_val[j] = tmp1[i];
+					j++;
+				}
+				
+			
+					
+			document.getElementById("attrSplitattr").setAttributeNS(null,"visibility","visible");
+			
+			init_interactivebox();
+			init_selctions();	
+			return rt;
+		}
+	}	
+	
+}
+		
+		function init_selctions()
+		{
+					
+			//styling parameters
+				var selBoxCellHeight = 18;
+				var selBoxTextpadding = 3;
+				var selBoxtextStyles = {"font-family":"宋体","font-size":12,"fill":"dimgray"};
+				var selBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+				var selBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+				var selBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+				var selBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.3};
+				var selBoxTriangleStyles = {"fill":"dimgray"};	
+							
+														
+			//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+			//create an empty group with the id as specified above in parameter 'groupId'
+			selattr = new selectionList("attr","attr",attrArr,120,80,330,selBoxCellHeight,selBoxTextpadding,17,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowSelction);
+
+
+	
+			selattryear = new selectionList("attryear","attryear",attryearArr,120,80,380,selBoxCellHeight,selBoxTextpadding,17,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowSelction);
+			selattrarea = new selectionList("attrarea","attrarea",attrareaArr,120,400,380,selBoxCellHeight,selBoxTextpadding,17,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowSelction);	
+	
+			//set default value
+			document.getElementById("attr_selVal").firstChild.nodeValue = attrArr_val[0];
+
+			document.getElementById("attryear_selVal").firstChild.nodeValue = attryearArr_val[0];
+			document.getElementById("attrarea_selVal").firstChild.nodeValue = attrareaArr_val[0];			
+			
+		}
+		
+		function init_interactivebox() {
+		
+		//alert(window.svgDocument);
+		//initPara(evt);
+		
+		
+		            //resizeTo(760,440)
+		            //styles
+		            var textStyles = {"font-family":"SimSun","font-size":15,"fill":"black"};
+		            var boxStyles = {"fill":"#E9E9E9","stroke":"black","stroke-width":1.5};
+		            var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		            var textselBoxStyles = {"fill":"blue","opacity":0.5};
+		          
+			//buttons style
+			var buttonTextStyles = {"font-family":"SimSun","fill":"navy","font-size":12};
+			var buttonStyles = {"fill":"lightsteelblue"};
+			var shadeLightStyles = {"fill":"white"};
+			var shadeDarkStyles = {"fill":"navy"};
+			var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+			var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+			var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+								
+							            
+		        //textbox_x
+				var textboxX = 180;
+				var textYOffset = 16;//字体距离textbox上框的高度
+		        //checkbox_x
+				var checkboxX = 180;				
+				//labeltext styles
+				//var labeltextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":15};//Arial,Helvetica，360浏览器不支持
+				var labeltextStyles = {"font-family":"SimSun","fill":"dimgray","font-size":15};				
+				//variables for label placement
+				var labelDistance = 12;
+				var labelYOffset = 5.5;
+			
+			
+									
+			//create new textboxes
+			//textbox1 = new textbox("textbox1","textbox","upload files",300,textboxX,92,230,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			textbox2 = new textbox("textbox2","textbox","",300,158,419,230,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+						
+			//create new buttons
+			//textbutton1 = new button("textbutton1","textbuttons",buttonPressed,"rect","..浏览",undefined,420,90,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			textbutton2 = new button("textbutton2","textbuttons",buttonPressed,"rect","重置",undefined,220,480,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			textbutton3 = new button("textbutton3","textbuttons",buttonPressed,"rect","提交",undefined,360,480,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			
+				//重置按钮添加链接
+				textbutton2.makeLinkButton("../svg/ImportEoo.svg","self","_parent");
+		
+			}
+			
+		
+function ShowSelction(selBoxName,conditionNr,arrayVal) 
+{
+	document.getElementById("inputchange").firstChild.nodeValue = "sel:" + arrayVal;
+	
+	if(selBoxName=="attr")
+		{
+			document.getElementById("attr_selVal").firstChild.nodeValue = attrArr_val[conditionNr];
+			
+		}	
+		else if(selBoxName=="attryear")
+		{
+			document.getElementById("attryear_selVal").firstChild.nodeValue = attryearArr_val[conditionNr];
+		}
+		else if(selBoxName=="attrarea")
+		{
+			document.getElementById("attrarea_selVal").firstChild.nodeValue = attrareaArr_val[conditionNr];
+		}
+
+}		
+
+		
+		function getTextInfo(textboxId,value,changeType) {
+		
+			document.getElementById("inputchange").firstChild.nodeValue = "Content of "+textboxId+" is \""+value+"\"";
+			
+			//setday(document.getElementById("textboxDate1"))；
+			document.getElementById("mapname_Val").firstChild.nodeValue = value;
+			
+		}
+		
+		function buttonPressed(buttonId,evt,textVal) {
+			document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+			
+			if(buttonId=="textbutton1")//浏览
+			{
+				showDialog();
+			}
+			else if(buttonId=="textbutton2")//重置
+			{
+				//var tmp = document.getElementById("textbutton2");
+				//alert(document.getElementById("textbutton2"));
+				//window.parent.makeLink(document.getElementById("textbutton2"), "../svg/TransEooGML.svg");
+				//textbutton2.makeLinkButton("../svg/TransEooGML.svg","self","_parent");//加到init中
+			}
+			else if(buttonId=="textbutton3")//提交
+			{
+				var filepath = document.getElementById("filepath_val").firstChild.nodeValue.trim();
+				var upLoadPath = document.getElementById("upLoadPath_val").firstChild.nodeValue.trim();
+				
+				var attr_selVal = document.getElementById("attr_selVal").firstChild.nodeValue.trim();
+				
+				var attryear = document.getElementById("attryear_selVal").firstChild.nodeValue.trim();	
+				var attrarea = document.getElementById("attrarea_selVal").firstChild.nodeValue.trim();	
+				
+				var mapname = document.getElementById("mapname_Val").firstChild.nodeValue.trim();	
+				
+				if(filepath=="")
+				{
+					alert("请先上传文件！");
+					return false;
+				}
+				
+				if(mapname=="")
+				{
+					alert("地图名不能为空，请您输入！");
+					return false;
+				}
+				
+				if(attryear==attrarea)
+				{
+					alert( "两个属性值不能相同，请您重新选择:)" );
+					return false;
+				}
+				
+				window.parent.transSubmit(filepath,upLoadPath,attr_selVal,attryear,attrarea,mapname);
+			}
+		}
+
+
+
+		]]>
+	</script>
+
+	<g id="textbuttons" />
+	<g id="textbox" />
+	
+		
+	<g font-family="SimSun" font-size="13">
+	<text x="10" y="40" id="inputchange" space="preserve" font-family="SimSun" font-size="15" fill="#FFFFFF" stroke="#FF0000" font-weight="bold">调用结果：</text>
+	</g>
+	
+	
+	<g id="DragContainer">
+		<text x="50" y="70"  font-family="SimSun" font-size="20" fill="#000000"  font-weight="bold">拽件待导入的Shp、Shx、DBF文件到此处</text>
+		<text x="430" y="70"  font-family="SimSun" font-size="20" fill="red"  font-weight="bold">（*必选）</text>
+		<rect id="RectContainer" x="100" y="90" width="386" height="170" rx="5" ry="5" fill="white" stroke="red" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" />		
+		<g id="fileList"></g>
+		
+				<text x="120" y="280"  font-family="SimSun" font-size="14" fill="red"  font-weight="bold">（注：上传的DBF文件将用于空间统计和空间分析）</text>
+		
+	</g>
+	
+	<g id="attrSplitattr" visibility="hidden">
+		<text x="50" y="320"  font-family="SimSun" font-size="12" fill="#000000" >由于您上传了属性数据文件，所以请您选择该属性文件的唯一标识主键，或者让系统为您自动生成主键。</text>
+
+
+		<text x="50" y="370"  font-family="SimSun" font-size="12" fill="#000000" >请选择哪个对象为年份属性年份的字段为：</text>
+		<text x="390" y="370"  font-family="SimSun" font-size="12" fill="#000000" >请选择哪个对象为名称属性地域的字段为：</text>	
+		
+		<text x="50" y="435"  font-family="SimSun" font-size="12" fill="#000000" >请您输入地图名：</text>	
+		<text x="396" y="435"  font-family="SimSun" font-size="16" fill="red"  font-weight="bold">（*必选）</text>			
+	</g>
+	
+	<g id="attr"/>
+
+	<g id="attryear"/>
+	<g id="attrarea"/>
+	<text id="filepath_val" visibility="visible" x="32" y="170" style="text-anchor:start;font-size:16;font-family:SimSun;fill:red"> </text>
+	<text id="upLoadPath_val" visibility="visible" x="32" y="200" style="text-anchor:start;font-size:16;font-family:SimSun;fill:red"> </text>
+	
+	
+	<text id="attr_selVal" visibility="visible" x="272" y="345" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	
+	<text id="attryear_selVal" visibility="visible" x="232" y="392" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	<text id="attrarea_selVal" visibility="visible" x="525" y="392" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+
+	<text id="mapname_Val" visibility="visible" x="200" y="465" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>		
+
+
+</svg>
+
+
+
+<svg  id="SvgLev2" visibility="hidden" y="18" height="390">
+<g transform="translate(0,-22)" id="content1" >	
+	<text id="disImportStatus" x="52" y="60" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black"> </text>
+
+</g>
+<g id="scrollbars1"  transform="translate(0,-18)"/>
+</svg>
+</svg>

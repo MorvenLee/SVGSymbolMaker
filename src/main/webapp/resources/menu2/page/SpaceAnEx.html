@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title>叠置分析--道路改建</title>
+  <Script language="Javascript">resizeTo(800,240);</script> 
+<style type="text/css">
+#container {margin:0 auto; width:900px; height:730px;}
+#head { margin:0 auto; height:150px; background:; margin-bottom:5px;}
+#footer {  height:40px; background:; margin-bottom:5px;}
+#content { margin:0 auto !important; height:640px; width:900px; }
+#sidebarL { float:left; width:180px; height:640px;}
+#sidebarR { float:left; width:720px; height:540px;}
+
+
+</style>
+	<SCRIPT src="/SircNancy/teamjs/commons.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="/SircNancy/teamjs/jquery-1[1].2.6.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="/SircNancy/teamjs/jquery.bgiframe.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="SpaceAnLiwork.js" type="text/javascript"></SCRIPT>
+ </head>
+   	<applet codebase="/SircNancy" archive="SpatialOperator.jar" code="sirc.analysis.SpatialBiz.class" name="analysisTool" width="0" height="0"></applet>
+ 
+  <body  onLoad="onPageLoad()">
+  <div id="loading" style="display:none"><img src="/SircNancy/images/loadingAnimation.gif"/></div>
+ <div id="container">
+ 
+   <div id="head">
+<embed name="TransMenu" pluginspage="http://www.adobe.com/svg/viewer/install/" 
+                                align="top" src="../svg/SubTop3earth.svg" height="100%" width="100%"
+                                 type="image/svg+xml"/>
+	</div>
+		
+   <div id="content">
+		
+		<div id="sidebarL">
+				<embed id="svgfileLeft" pluginspage="http://www.adobe.com/svg/viewer/install/" 
+                                align="top" src="../svg/SpaceAnExL.svg" height="100%" width="100%"
+                                 type="image/svg+xml"/>
+		</div>
+			
+		<div id="sidebarR">
+			<embed id="svgfile1" pluginspage="http://www.adobe.com/svg/viewer/install/" 
+                                align="top" src="../svg/SpaceAnExR.svg" height="100%" width="100%"
+                                 type="image/svg+xml"/>
+								
+			</div>
+	</div>
+	
+<div id="footer">
+            <embed name="Transfooter" pluginspage="http://www.adobe.com/svg/viewer/install/" 
+                                align="top" src="../svg/subfooter3.svg" height="100%" width="100%"
+                                 type="image/svg+xml"/>
+</div>
+</div>
+ </body>
+</html>

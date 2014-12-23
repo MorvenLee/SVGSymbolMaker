@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg onload="initialize(evt)" width="215" height="310" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect id="leftmenubj" x="1" y="0" rx="0" ry="0" width="215" height="310" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect id="leftmenu" x="8" y="1" rx="0" ry="0" width="200" height="295" fill="white" fill-opacity="1" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+	<script type="text/ecmascript" xlink:href="../js/combobox.js" />
+
+<script type="text/ecmascript">
+<![CDATA[	
+	var myMapApp = new mapApp(false,undefined);		
+	
+		//styling parameters
+		var selBoxCellHeight = 16;
+		var selBoxTextpadding = 3;
+		var selBoxtextStyles = {"font-family":"宋体","font-size":11,"fill":"dimgray"};
+		var selBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+		var selBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+		var selBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+		var selBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.3};
+		var selBoxTriangleStyles = {"fill":"dimgray"};		
+	
+	
+		
+	var BufferText;
+	var tempID;
+	var selLayer;
+	var selLayer_status=0;//是否已经动态创建
+	var selRelation;
+	var LayerArr = new Array();
+	var LayerArr_val = new Array();
+	var Searchbutton1;
+	var RelationArr = ["相交","接触","相离"];	
+	var RelationArr_val = ["crosses","touch","disjoint"];	
+	
+	var comboliste;
+	var DisSpaSearchRes;
+	var DisSpaSResReset;
+	var DisSpaSResBack;
+	
+	//方向查找
+	var gSvg44_selLayer;
+	var gSvg44_selLayer_status=0;//是否已经动态创建
+	var gSvg44_selDirection;
+	
+	var gSvg44_LayerArr = new Array();
+	var gSvg44_LayerArr_val = new Array();	
+	var gSvg44_DirectionArr = ["重合","东南","东北","西南","西北","正东","正南","正北","正西"];	
+	var gSvg44_DirectionArr_val = ["TheSame","East_South","East_North",
+										"West_South","West_North","Restricted_East",
+										"Restricted_South","Restricted_North","Restricted_West"];
+	//方向查找结果
+	var gSvg44_But1;		
+	var combogSvg44liste;			
+	var gSvgRes44_Res;
+	var gSvgRes44_Reset;
+	var gSvgRes44_Back;	
+	//网络分析
+	var gSvg48_But1;	
+	var gSvg48_selLayer;
+	var gSvg48_selLayer_status=0;//是否已经动态创建
+	var gSvg48_LayerArr = new Array();
+	var gSvg48_LayerArr_val = new Array();
+	
+	//地理定位
+	var gSvg60_But1; 
+	var gSvg60_Text;
+	
+
+document.onkeydown=function(e)
+{
+	switch ((window.event)?event.keyCode:e.which){
+           case 8:
+		window.event.returnValue = false;
+		DELflag=true;
+		textbox.prototype.Delete(tempID,DELflag);
+		//alert(tempID);
+           break;
+
+           default: DELflag=false;
+           break;
+        }
+}
+
+
+	function initialize(evt) {
+	  	var svgDoc = evt.target.ownerDocument ;
+		svgDoc.svgWnd = window ; //这里人为进行设定，以便在html中的第一种交互方式中可以取的到svg的window对象  
+		init_textbox(evt);
+		
+		//init_selectList(evt);
+	
+		init_button("Searchbutton1");
+		init_button("gSvg44_But");	
+		init_button("gSvg48_But");	
+		init_button("gSvg60_But");			
+		//init_button("gSvgRes44_But");//空间查找结果
+		
+		
+		
+		//init_combox();
+	}
+	
+	function init_combox(nameArray,optype)
+	{
+		var comboBoxCellHeight = 16;
+		var comboBoxTextpadding = 3;
+		var comboBoxtextStyles = {"font-family":"Arial,Helvetica","font-size":11,"fill":"dimgray"};
+		var comboBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+		var comboBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+		var comboBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+		var comboBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.5};
+		var comboBoxTriangleStyles = {"fill":"dimgray"};
+		
+		/*
+		var liste=new Array
+					(
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false}
+					);
+	/*/
+		///*
+		var liste=new Array();
+		for(var j = 0; j < nameArray.length; j++)
+		{
+			//liste[j] = new Array({key:nameArray[j],value:false}); 
+			liste[j] = {key:nameArray[j],value:false};
+		}
+		//*/
+		var gSvg44liste=new Array();
+		for(var j = 0; j < nameArray.length; j++)
+		{
+			gSvg44liste[j] = {key:nameArray[j],value:false};
+		}
+
+		if(optype=="gSvg43")//空间查找
+		{
+			 comboliste = new combobox("liste","liste",liste,100,20,50,comboBoxCellHeight,comboBoxTextpadding,8,false,0,comboBoxtextStyles,comboBoxStyles,comboBoxScrollbarStyles,comboBoxSmallrectStyles,comboBoxHighlightStyles,comboBoxTriangleStyles,showCombox);
+		}
+		else if(optype=="gSvg44")//方位查找
+		{
+			 combogSvg44liste = new combobox("gSvg44liste","gSvg44liste",gSvg44liste,100,20,50,comboBoxCellHeight,comboBoxTextpadding,8,false,0,comboBoxtextStyles,comboBoxStyles,comboBoxScrollbarStyles,comboBoxSmallrectStyles,comboBoxHighlightStyles,comboBoxTriangleStyles,showCombox);		
+		}
+		
+				
+	}
+
+	function showCombox(comboboxName,selectedValues,selectedIndizes)
+	{
+		//comboCity.addElementAtPosition({key:"Zurich",value:true},0,false);
+		//alert(comboTuFu.getCurrentSelections());
+		//alert(selectedValues);
+	}
+	
+	function init_button(optype)
+	{
+		//first a few styles
+		var buttonTextStyles = {"font-family":"宋体","fill":"navy","font-size":12};
+		var buttonStyles = {"fill":"lightsteelblue"};
+		var shadeLightStyles = {"fill":"white"};
+		var shadeDarkStyles = {"fill":"navy"};
+		var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+		var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+		var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+		
+		if(optype=='Searchbutton1')
+		{
+			Searchbutton1 = new button("Searchbutton1","searchbut",buttonPressed,"rect","Search",undefined,20,180,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+		}
+		else if(optype=='DisSpaSearchRes')
+		{
+			DisSpaSearchRes = new button("DisSpaSearchRes","disSpatSResBut",buttonPressed,"rect","显示区域属性",undefined,20,200,95,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			DisSpaSResReset = new button("DisSpaSResReset","disSpatSResBut",buttonPressed,"rect","重置地图",undefined,20,240,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);		
+			DisSpaSResBack = new button("DisSpaSResBack","disSpatSResBut",buttonPressed,"rect","返回",undefined,110,240,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);		
+		}
+		else if(optype=='gSvg44_But')
+		{
+			gSvg44_But1 = new button("gSvg44_But1","gSvg44_But",buttonPressed,"rect","Search",undefined,20,180,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+		}
+		else if(optype=='gSvgRes44_But')
+		{
+			gSvgRes44_Res = new button("gSvgRes44_Res","gSvgRes44_But",buttonPressed,"rect","显示区域属性2",undefined,20,200,95,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			gSvgRes44_Reset = new button("gSvgRes44_Reset","gSvgRes44_But",buttonPressed,"rect","重置地图2",undefined,20,240,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);		
+			gSvgRes44_Back = new button("gSvgRes44_Back","gSvgRes44_But",buttonPressed,"rect","返回2",undefined,110,240,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);		
+		}
+		else if( optype == "gSvg48_But")
+		{
+			gSvg48_But1 = new button("gSvg48_But1","gSvg48_But",buttonPressed,"rect","查找",undefined,20,230,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);		
+		}
+		else if( optype == "gSvg60_But")
+		{
+			gSvg60_But1 = new button("gSvg60_But1","gSvg60_But",buttonPressed,"rect","定位",undefined,20,140,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);		
+		}
+						
+	}
+		
+	function buttonPressed(buttonId,evt,textVal) {
+			//document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+			if(buttonId=="Searchbutton1")//空间查找
+			{
+				window.parent.search();
+			}
+			else if(buttonId=="DisSpaSearchRes")//空间查找结果
+			{
+				window.parent.showme(comboliste.getCurrentSelections());
+				window.parent.showdataAttr(comboliste.getCurrentSelections());
+			}
+			else if(buttonId=="DisSpaSResReset" || buttonId=="gSvgRes44_Reset")//空间查找结果--重置
+			{
+				window.parent.unfillmap();
+			}
+			else if(buttonId=="DisSpaSResBack")//空间查找结果--返回
+			{
+				window.parent.clicktool(32);
+			}
+			else if(buttonId=="gSvg44_But1")//方位查找
+			{
+				window.parent.search_pos();
+			}
+			else if(buttonId=="gSvgRes44_Res")//方位查找结果
+			{
+				//alert("aaa");
+				var temp = combogSvg44liste.getCurrentSelections();
+				//alert(temp[0]);
+				window.parent.showme(temp);
+				window.parent.showdataAttr(temp);
+			}
+			else if(buttonId=="gSvgRes44_Back")//空间查找结果--返回
+			{
+				window.parent.clicktool(41);
+			}
+			else if(buttonId=="gSvg48_But1")//网络分析
+			{
+				window.parent.NetAnalysisFun();
+			}						
+			else if(buttonId=="gSvg60_But1")//地理定位
+			{
+				return window.parent.pTolatlng();
+			}			
+			//end			
+		}						
+	
+	function init_textbox(evt)
+	{
+		//styles
+		var textStyles = {"font-family":"宋体","font-size":15,"fill":"dimgray"};
+		var boxStyles = {"fill":"#E9E9E9","stroke":"dimgray","stroke-width":1.5};
+		var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		var textselBoxStyles = {"fill":"blue","opacity":0.5};								
+				
+		//textbox_x
+		var textYOffset = 16;//字体距离textbox上框的高度
+
+		//create new textboxes
+		BufferText = new textbox("BufferText","BufferText","1000",25,15,50,70,20,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,"[0-9]",getTextInfo);
+		tempID = BufferText;
+		
+		gSvg60_Text = new textbox("gSvg60_Text","gSvg60_Text","",65,15,90,180,20,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,"",getTextInfo);
+		tempID = gSvg60_Text;
+	}
+
+	function getTextInfo(textboxId,value,changeType) {	
+		
+		//setday(document.getElementById("textboxDate1"));
+		//alert(textboxId.id);
+		if(textboxId.id == "BufferText")
+		{
+			tempID = BufferText;
+			document.getElementById("BufferValue").firstChild.nodeValue = value;	
+		}
+		else if(textboxId.id == "gSvg60_Text")
+		{
+			tempID = gSvg60_Text;
+			document.getElementById("gSvg60_placeLatLng").firstChild.nodeValue = value;	
+		}		
+		
+	}
+	
+	//空间查找
+	function init_selectList(scaleindex,layer_scale,layer_name,layer_visible,optype)
+	{
+		//arrays for selectionList data
+		//var LayerArr = ["GDCOUNTRYBND 图层","DBRIV_ALB_OK 图层","gaosu 图层","tielu 图层"];	
+
+		if (layer_scale[scaleindex] != ""){
+			var tmp = layer_scale[scaleindex].split(",");
+			var j=0;
+			
+			for (var i=0; i<tmp.length; i++){
+				if (layer_visible[tmp[i]] && layer_name[tmp[i]] != "raster"){
+					LayerArr[j] = layer_name[tmp[i]] + " 图层";
+					LayerArr_val[j] = layer_name[tmp[i]];
+					j++;
+				}
+			}
+		}
+	
+		if(optype=="gSvg43")//空间查找
+		{
+			//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+			//create an empty group with the id as specified above in parameter 'groupId'
+			selLayer = new selectionList("Layer","Layer",LayerArr,130,42,88,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,2,false,true,ShowSelect);
+			//selCondition1.sortList("asc");
+			selLayer_status = 1;
+			
+			selRelation = new selectionList("Relation","Relation",RelationArr,46,20,148,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowSelect);
+		
+			//set default value
+			document.getElementById("select1_topo").firstChild.nodeValue = LayerArr_val[2];
+			document.getElementById("select2_topo").firstChild.nodeValue =  RelationArr_val[0];
+		}
+		else if(optype=="gSvg44")//方位查找
+		{
+			//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+			//create an empty group with the id as specified above in parameter 'groupId'
+			gSvg44_selLayer = new selectionList("gSvg44_Layer","gSvg44_Layer",LayerArr,130,42,88,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,2,false,true,ShowSelect);
+			//selCondition1.sortList("asc");
+			gSvg44_selLayer_status = 1;
+			
+			gSvg44_selDirection = new selectionList("gSvg44_Direction","gSvg44_Direction",gSvg44_DirectionArr,46,20,148,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,4,false,true,ShowSelect);
+		
+			//set default value
+			document.getElementById("gSvg44_sel1_topo").firstChild.nodeValue = LayerArr_val[2];
+			document.getElementById("gSvg44_sel2_topo").firstChild.nodeValue =  gSvg44_DirectionArr_val[4];
+		}
+		else if(optype=="gSvg48")//网络分析
+		{
+			//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+			//create an empty group with the id as specified above in parameter 'groupId'
+			gSvg48_selLayer = new selectionList("gSvg48_Layer","gSvg48_Layer",LayerArr,130,32,58,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,2,false,true,ShowSelect);
+			//selCondition1.sortList("asc");
+			gSvg48_selLayer_status = 1;
+					
+			//set default value
+			document.getElementById("gSvg48_sel1_topo").firstChild.nodeValue = LayerArr_val[2];
+
+		}		
+
+	}
+	
+	//方位查找
+	function init_g44_selList(scaleindex,layer_scale,layer_name,layer_visible)
+	{
+		//arrays for selectionList data
+		//var LayerArr = ["GDCOUNTRYBND 图层","DBRIV_ALB_OK 图层","gaosu 图层","tielu 图层"];	
+
+		if (layer_scale[scaleindex] != ""){
+			var tmp = layer_scale[scaleindex].split(",");
+			var j=0;
+			
+			for (var i=0; i<tmp.length; i++){
+				if (layer_visible[tmp[i]] && layer_name[tmp[i]] != "raster"){
+					gSvg44_LayerArr[j] = layer_name[tmp[i]] + " 图层";
+					gSvg44_LayerArr_val[j] = layer_name[tmp[i]];
+					j++;
+				}
+			}
+		}
+	
+
+		//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+		//create an empty group with the id as specified above in parameter 'groupId'
+		gSvg44_selLayer = new selectionList("gSvg44_Layer","gSvg44_Layer",gSvg44_LayerArr,130,42,88,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,2,false,true,ShowSelect);
+		//selCondition1.sortList("asc");
+		gSvg44_selLayer_status = 1;
+		
+		gSvg44_selDirection = new selectionList("gSvg44_Direction","gSvg44_Direction",gSvg44_DirectionArr,46,20,148,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,4,false,true,ShowSelect);
+	
+		//set default value
+		document.getElementById("gSvg44_sel1_topo").firstChild.nodeValue = gSvg44_LayerArr_val[2];
+		document.getElementById("gSvg44_sel2_topo").firstChild.nodeValue =  gSvg44_DirectionArr_val[4];
+		
+	}	
+	
+	
+	
+	function removeSelLayer() {
+		if(selLayer_status==0)
+			return true;
+	
+		if (selLayer.exists == true) {
+			selLayer.removeSelectionList();
+			selLayer_status = 0 ;
+		}
+		else {
+			//alert('selLayer already removed');
+		}
+	}
+	
+	
+	function removeGSvg44Layer() {
+		if(gSvg44_selLayer_status==0)
+			return true;
+	
+		if (gSvg44_selLayer.exists == true) {
+			gSvg44_selLayer.removeSelectionList();
+			gSvg44_selLayer_status = 0 ;
+		}
+		else {
+			//alert('selLayer already removed');
+		}
+	}	
+	//网络分析
+	function removeGSvg48Layer() {
+		if(gSvg48_selLayer_status==0)
+			return true;
+	
+		if (gSvg48_selLayer.exists == true) {
+			gSvg48_selLayer.removeSelectionList();
+			gSvg48_selLayer_status = 0 ;
+		}
+		else {
+			//alert('selLayer already removed');
+		}
+	}	
+			
+								
+		
+	function ShowSelect(selBoxName,conditionNr,arrayVal) {
+		//alert(selBoxName);
+		//alert(conditionNr);
+		if(selBoxName=="Layer")
+		{
+			//document.getElementById("select1_topo").firstChild.nodeValue =  arrayVal;
+			document.getElementById("select1_topo").firstChild.nodeValue = LayerArr_val[conditionNr];
+		}
+		else if(selBoxName=="Relation")
+		{
+			//document.getElementById("select2_topo").firstChild.nodeValue =  arrayVal;
+			document.getElementById("select2_topo").firstChild.nodeValue = RelationArr_val[conditionNr];
+			
+		}
+		else if(selBoxName=="gSvg44_Layer")
+		{
+			//document.getElementById("gSvg44_sel1_topo").firstChild.nodeValue = gSvg44_LayerArr_val[conditionNr];
+			document.getElementById("gSvg44_sel1_topo").firstChild.nodeValue = LayerArr_val[conditionNr];
+		}
+		else if(selBoxName=="gSvg44_Direction")
+		{
+			document.getElementById("gSvg44_sel2_topo").firstChild.nodeValue = gSvg44_DirectionArr_val[conditionNr];
+		}
+		else if(selBoxName=="gSvg48_Layer")
+		{
+			//document.getElementById("gSvg48_sel1_topo").firstChild.nodeValue = gSvg48_LayerArr_val[conditionNr];
+			document.getElementById("gSvg48_sel1_topo").firstChild.nodeValue = LayerArr_val[conditionNr];
+		}
+		
+	}
+		
+	function onzoom(flag) 
+	{
+   
+		window.parent.onzoom(flag);
+	}		
+		
+]]>
+</script>
+	
+
+<g id="layerSvgZoom" visibility="hidden">
+	<text id="Layer1" x="10" y="15" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+	<text id="Layer12" x="12" y="30" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+
+	<g id="Layer2" visibility="hidden">
+	<image x="82" y="50" width="17" height="17" xlink:href="../../../images/zoom/zoom-plus.png"></image>
+	<image x="82" y="68" width="17" height="103" xlink:href="../../../images/zoom/zoom-bg.png"></image>
+	<image x="82" y="173" width="17" height="17" xlink:href="../../../images/zoom/zoom-minus.png"></image>
+
+	<image id="L2Slider" x="88" y="160" width="17" height="9" xlink:href="../../../images/zoom/slider.png"></image>
+
+
+	<rect x="82" y="50" width="17" height="17" fill="white" fill-opacity="0" onclick='onzoom(1)'/>
+
+	<rect x="82" y="173" width="17" height="17" fill="white" fill-opacity="0" onclick='onzoom(-1)'/>
+	</g>
+</g>
+
+
+<g id="layerBufferSvg" visibility="hidden">
+	<text id="LayerBufferS1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：缓冲区</text>  
+	<text id="LayerBufferS2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >请输入缓冲区大小：</text>  
+	
+	<g id="BufferText" />
+	<text id="BufferValue" visibility="hidden" x="90" y="70" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red">1000</text>  
+
+	<text id="LayerBufferS3" x="90" y="63" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >米</text>  
+	<text id="LayerBufferS4" x="12" y="90" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" >ps：点击已生成的缓冲区可删除它</text>  
+</g>
+//<!--空间查找-->
+<g id="layerSpaceSearchSvg" visibility="hidden">
+	<text id="layerSpaceSS1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：空间查找</text>  
+	<text id="layerSpaceSS2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >当前所选择的的空间对象为：</text>  
+	
+	<text id="SpaceObjId" x="15" y="62" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red">ID：</text>  
+
+	<text id="layerSpaceSS41" x="12" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >查询</text>  
+	<text id="layerSpaceSS42" x="180" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >中</text>  
+	<text id="layerSpaceSS5" x="12" y="130" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >与所选择的空间对象</text>  
+	<text id="layerSpaceSS6" x="72" y="160" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >的空间实体</text>  
+	<g id="Layers"/>
+	<g id="Relation"/>
+	<text id="select1_topo" visibility="hidden" x="90" y="180" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<text id="select2_topo" visibility="hidden" x="90" y="200" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<g id="searchbut"/>
+	
+</g>
+//<!--空间查找 结果-->
+<g id="layerSpaceSeaRes" visibility="hidden">
+	<text id="layerSpaceSR1" x="12" y="30" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >下列结果被找到：</text>  
+	<g id="liste" ></g>
+	<g id="disSpatSResBut"/>
+</g>
+
+
+
+//<!--方位查找-->
+<g id="layerSvg44" visibility="hidden">
+	<text id="gSvg44_1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：方位查找</text>  
+	<text id="gSvg44_2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >当前所选择的的空间对象为：</text>  
+	
+	<text id="gSvg44_SpaceObjId" x="15" y="62" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red">ID：</text>  
+
+	<text id="gSvg44_41" x="12" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >查询</text>  
+	<text id="gSvg44_42" x="180" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >中</text>  
+	<text id="gSvg44_5" x="12" y="130" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >与所选择的空间对象</text>  
+	<text id="gSvg44_6" x="72" y="160" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >的空间实体</text>  
+	<g id="gSvg44_Layer"/>
+	<g id="gSvg44_Direction"/>
+	<text id="gSvg44_sel1_topo" visibility="hidden" x="90" y="180" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<text id="gSvg44_sel2_topo" visibility="hidden" x="90" y="200" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<g id="gSvg44_But"/>
+	
+</g>
+//<!--方位查找 结果-->
+<g id="gSvgRes44" visibility="hidden">
+	<text id="gSvgRes44_1" x="12" y="30" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >下列结果被找到：</text>  
+	<g id="gSvg44liste" ></g>
+	<g id="gSvgRes44_But"/>
+</g>
+
+
+//<!--网络分析-->
+<g id="layerSvg48" visibility="hidden">
+	<text id="gSvg48_1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：网络分析</text>  
+	<text id="gSvg48_2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >任务:查找两点之间的最短路径！</text>  
+	 
+	<text id="gSvg48_31" x="12" y="70" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >在</text>  
+	<text id="gSvg48_32" x="180" y="70" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >中</text>  
+	<text id="gSvg48_4" x="12" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >查找两点之间的最短路径</text>  
+	
+	<text id="gSvg48_51" x="12" y="130" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+	<text id="gSvg48_52" x="32" y="150" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+	<text id="gSvg48_61" x="12" y="190" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<text id="gSvg48_62" x="32" y="210" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<g id="gSvg48_Layer"/>
+	<g id="gSvg48_But" visibility="hidden"/>
+	
+	<text id="gSvg48_sel1_topo" visibility="hidden" x="110" y="250" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>	
+</g>
+
+
+//<!--地理定位-->
+<g id="layerSvg60" visibility="hidden">
+	<text id="gSvg60_1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：地理定位</text>  
+	<text id="gSvg60_2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >请输入该地点的经纬度：</text>  	 
+	<text id="gSvg60_3" x="12" y="80" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >经纬度：</text>
+	
+	<text id="gSvg60_placeLatLng" visibility="hidden" x="12" y="180" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  	  
+	<text id="gSvg60_5" x="12" y="130" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >示例：113.159,24.648</text>  
+	
+	<g id="gSvg60_Text"/>
+	<g id="gSvg60_But"/>
+</g>
+
+//<!--定位查询-->
+<g id="layerSvg61" visibility="hidden">
+	<text id="gSvg61_1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：定位查询</text>  
+	<text id="gSvg61_2" x="40" y="50" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >提示：点击地图，即可获得</text>  	 
+	<text id="gSvg61_3" x="16" y="70" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >该位置的位置信息。</text>  	 
+		
+	<text id="gSvg61_41" x="12" y="130" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" > </text>  
+	<text id="gSvg61_42" x="22" y="150" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+	<text id="gSvg61_51" x="12" y="180" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black"> </text>
+	<text id="gSvg61_52" x="22" y="200" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+</g>
+
+
+
+
+
+<g id="disabledLayer" visibility = "hidden">
+<rect  x="0" y="0" width="215" height="310" fill="gray" fill-opacity=".6" stroke="gray"  />
+</g>
+
+</svg>

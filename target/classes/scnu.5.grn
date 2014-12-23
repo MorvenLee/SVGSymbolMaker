@@ -1,0 +1,18 @@
+<uml>
+   <greenVersion="30500"/>
+   <type>
+      <name="=scnu/java<com.scnu.shapes{DynamicProperty.java[DynamicProperty"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="0"/>
+      <y="0"/>
+   </type>
+   <type>
+      <name="=scnu/java<com.scnu.shapes{DynamicProperty.java[DynamicProperty[LoopType"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="200"/>
+      <y="0"/>
+   </type>
+</uml>
+

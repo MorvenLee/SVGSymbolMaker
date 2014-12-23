@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <HEAD>
+ <meta charset="UTF-8">
+  <TITLE> 数据转换 </TITLE>
+  	<SCRIPT src="../js/TransEooToGML_html.js" type="text/javascript"></SCRIPT>
+  	<script type="text/javascript">
+    	function addDNDListeners_test(){
+    		var container = document.getElementById("container");
+				var fileList = document.getElementById("fileList");
+				container.addEventListener("dragenter", function(event){
+					fileList.innerHTML ='';
+					event.stopPropagation();
+					event.preventDefault();
+					}, false);
+				container.addEventListener("dragover", function(event){
+					event.stopPropagation();
+					event.preventDefault();
+					}, false);
+				container.addEventListener("drop", handleDrop, false);
+    	}
+    	
+    	function handleDrop(event){
+    		alert("-----html--drop---");
+    	}
+    </script>
+  
+<style type="text/css">
+#container {margin:0 auto; width:750px;}
+#menu { margin:0 auto; height:80px; background:; margin-bottom:5px;}
+#content { margin:0 auto !important; height:1000px; width:750px; }
+
+			#container_test{
+				min-width: 400px;
+				min-height: 280px;
+				border: 2px dotted #000;
+				-moz-border-radius: 8px;
+			}
+</style>
+ </HEAD>
+  <BODY  onload="initPara();addDNDListeners_test();">
+ <div id="container">
+ 
+   <div id="menu">
+<embed name="TransMenu" pluginspage="http://www.adobe.com/svg/viewer/install/" 
+                                align="top" src="../svg/dataTransMenu.svg" height="100%" width="100%"
+                                 type="image/svg+xml"/>
+			</div>
+			<div id="content">
+	<embed name="TransBoard" pluginspage="http://www.adobe.com/svg/viewer/install/" 
+                                align="top" src="../svg/TransEooGML.svg" height="100%" width="100%"
+                                 type="image/svg+xml"/>
+		</div>
+		<div id="container_test">
+		<div style="text-align:center">Drag and drop files here to upload.</div>
+		<ul id="fileList"></ul>
+		</div>
+ </div>
+ </BODY>
+</HTML>

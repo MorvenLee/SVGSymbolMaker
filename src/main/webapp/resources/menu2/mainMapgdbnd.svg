@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg  id="topsvg" ID="topsvg" onload="init();exeScript()" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  xml:space="preserve" width="1000" height="1000">
+
+    <script type="text/javascript" xlink:href="js/TopMenuL2.js" />
+
+    <script type="text/javascript">
+        <![CDATA[
+
+			function init(){
+				xmlns='http://www.w3.org/2000/svg';
+				xlinkns='http://www.w3.org/1999/xlink';
+
+				createMenu();
+
+				window.focus();
+
+			}
+        ]]>
+    </script>
+<!--<image x="1" y="1" width="100%" height="100%" xlink:href="svg/sub_indexR.svg"></image>-->
+	<!-- <svg id="viewer" width="100%" height="100%"/> -->
+
+
+<svg id="mainview" ID="mainview" viewBox="94928 2172873 790615 595213" >
+<script xlink:href="../../teamjs/spatial.js"/>
+<script type="text/javascript"><![CDATA[
+
+        function mousemovetask(evt)
+        {
+     
+        	window.parent.mousemovetask(evt);
+        }
+        
+        function mouseouttask(evt)
+        {
+      
+        	window.parent.mouseouttask(evt);
+        }
+        
+        function mousedowntask(evt)
+        {
+      
+        	window.parent.mousedowntask(evt);
+        }
+
+        function mouseuptask(evt)
+        {
+      
+        	window.parent.mouseuptask(evt);
+        }
+
+        function clickit(evt)
+        {
+      
+        	window.parent.clickit(evt);
+        }
+
+        function showdetail(evt)
+        {
+      
+        	window.parent.showdetail(evt);
+        }
+
+function exeScript()
+{
+	var s1=document.getElementById("fortext").getAttribute("exchange");
+	var s2=document.getElementById("forchose").getAttribute("exchange");
+	document.getElementById("fortext").setAttribute("exchange","dddd");
+	document.getElementById("forchose").setAttribute("exchange","0");
+	
+
+	if(s1!="dddd")
+	{
+		//alert(s1);
+		//alert(s2);
+		clearTimeout(timeid1);
+		if(s2=="1")
+		{
+		
+		//var node=parseXML(s1,document);
+		var node=window.parent.parseSVGXML(s1,document);
+		//alert(node.firstChild.firstChild.getAttribute("id"));
+		document.getElementById("vectormap").appendChild(node.firstChild.firstChild);
+		//alert(s1.substring(7,100));
+		//document.all.Layer7.innerText="dddd";
+		}
+		else if(s2=="2")
+		{
+			//alert("aaaaaa");
+			var childs = document.getElementById("MapStatistical").childNodes;
+			if (childs.length != 0){
+				for (var i=childs.length-1; i>=0; i--){
+					document.getElementById("MapStatistical").removeChild(childs.item(i));
+				}
+			}
+			//var obj=parseXML(s1,document);
+			var obj=window.parent.parseSVGXML(s1,document);
+			//var tmp = obj.firstChild;
+			//alert(tmp);
+			//alert(obj.firstChild.firstChild.getAttribute("id"));
+			document.getElementById("MapStatistical").appendChild(obj.firstChild);
+		
+//			if(document.getElementById("MapStatistical").getFirstChild()!=null)
+//			{
+//				document.getElementById("MapStatistical").removeChild(document.getElementById("MapStatistical").firstChild);
+//			}
+		}
+		s1="";
+		s2="";
+		
+		timeid1=setTimeout("exeScript()",1000);
+	}
+	else
+	{
+	
+	timeid1=setTimeout("exeScript()",1000);
+	}    	
+}
+function chageStrokeColor(evt, color){
+	evt.target.getStyle.setProperty("stroke",color);
+}
+]]></script>
+
+
+
+<g id="rastermap" ID="rastermap">
+<g id="raster" style="visibility:visible;">
+<image xlink:href="gd.jpg" x="94928" y="2172873" width="790615" height="595213"/> 
+</g>
+</g>
+<defs id="S_Map_Filling" ID="S_Map_Filling">	        
+</defs>
+<g id="vectormap"  ID="vectormap" transform="translate(0,4940960),scale(1,-1)">
+</g>
+<g id="statistics_and_analysis" ID="statistics_and_analysis">
+<g id="MapStatistical" transform="translate(0,4940960),scale(1,-1)">
+</g>
+<g id="SpatialAnalysis" transform="translate(0,4940960),scale(1,-1)"> 
+</g>
+</g>
+<rect id="dragRect" style="fill:green;fill-opacity:0;stroke:blue; stroke-width:4000" x="0" y="0" height="0" width="0" onmousedown="mousedowntask(evt)" onmousemove="mousemovetask(evt)" onmouseup="mouseuptask(evt)"/>
+<circle id="dragcircle" style="fill:green;fill-opacity:0;stroke:blue; stroke-width:4000" cx="0" cy="0" r="0" onmousedown="mousedowntask(evt)" onmousemove="mousemovetask(evt)" onmouseup="mouseuptask(evt)"/>
+<g id="E_Map_Filling" ID="E_Map_Filling"></g>
+<g id="draw" ID="draw"></g> 
+
+</svg>
+<svg id="mertic" viewBox="0 0 664 505">
+<rect id="forzoomrect" style="fill:red;fill-opacity:0;stroke:none;opacity:0.3;" x="0" y="0" width="664" height="505" onmousedown="mousedowntask(evt)" onmousemove="mousemovetask(evt)" onmouseup="mouseuptask(evt)" onmouseout="mouseouttask(evt)" onclick="clickit(evt)"/>
+<path id="merticpath" style="stroke-width: 2; stroke: red;fill:none;opacity:0.7;" d="M 0 0 L 0 0"/>
+<path id="fortext" d="M 0 0 L 0 0" exchange="dddd"/>
+<path id="forchose" d="M 0 0 L 0 0" exchange="dddd"/>
+<circle id="point" cx="-228" cy="-204" r="6" fill="#FF0000" stroke="#FF0000"/>
+<g id="target" onmouseover="chageStrokeColor(evt, 'red')" onmouseout="chageStrokeColor(evt, '#666666')">
+<path d="M -11.85001 -12.95 L 13.94999 -12.95 L 13.94999 12.85 L -11.85001 12.85 ZM -3.449999 -0.349999 L 5.249992 -0.349999 M 0.7499971 -4.850004 L 0.7499971 5.049996 M -11.25 -0.3499998 L -5.549997 -0.3499998 M 0.7500002 -12.65 L 0.7500002 -7.550003 M 0.7500002 7.149996 L 0.7500002 12.25 M 7.649996 -0.3499998 L 13.35 -0.3499998 " fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="none" />
+</g>
+<rect id="rectPoint" x="0" y="0" width="6" height="6" style="visibility:hidden"/>
+<g id="ScreenOthers"></g>
+
+</svg>
+<svg id="Pain" viewBox="94928 2172873 790615 595213">
+<g id="place" style="visibility:hidden" >
+<rect id="bigR" x="94928" y="2172873" width="790615" height="595213"   fill="blue"  fill-opacity="0" />
+<ellipse id="EL" cx="400" cy="-10000" rx="3000" ry="3000" stroke="black" stroke-width="1" fill="green"></ellipse>
+</g>
+
+<ellipse id="STEL" cx="400" cy="-10000" rx="5000" ry="5000" stroke="black" stroke-width="1" fill="red"></ellipse>
+
+
+
+</svg>	
+
+<g id="disabledLayer" visibility = "hidden">
+<rect  x="0" y="-100" width="1000" height="1000" fill="gray" fill-opacity=".6" stroke="gray"  />
+</g>
+
+
+<text id="disProgressTest" visibility = "hidden" x="10" y="60"  font-family="宋体" font-size="20" fill="blue" stroke="blue" font-weight="bold">进度：</text>
+
+</svg>	

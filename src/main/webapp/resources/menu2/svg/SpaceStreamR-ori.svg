@@ -1,0 +1,34 @@
+<?xml version="1.0"  encoding="utf-8" standalone="no"?>
+<svg id="svg_overlap" width="450" height="470" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<script type="text/javascript" xmlns="http://www.w3.org/2000/svg">
+<![CDATA[
+	function onOverPolygon(evt, color)
+	{
+		evt.target.setAttribute("fill",color);
+		evt.target.setAttribute("fill-opacity","0.5");
+		//alert(evt.getTarget.getAttribute("d"));
+		var childs = evt.target.parentNode.childNodes;
+		if (childs.length != 0){
+			for (var i=childs.length-1; i>=0; i--){
+				var c = childs.item(i);
+				if (c.nodeName == "path"){
+					if(c != evt.target){
+						c.setAttribute("fill-opacity","1");
+						c.setAttribute("fill","white");
+					}
+				}
+			}
+		}
+		
+	}
+]]>
+</script>
+</defs>
+<rect id="containerRight" x="1" y="1" rx="0" ry="0" width="445" height="465"  fill="#084573" stroke="#CCCCCC" stroke-width="2" fill-opacity=".1"  xmlns="http://www.w3.org/2000/svg" />
+
+<g id="result" fill="none" stroke="black" stroke-opacity="0.5">
+
+</g>
+
+</svg>

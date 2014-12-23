@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Symbol>
+	<MarkerSymbol>
+		<id>001</id>
+		<name>塌陷</name>
+		<catalog>地质灾害</catalog>
+		<group>
+			<rect></rect>
+			<circle></circle>
+			...
+		</group>
+		...
+		<group></group>
+		<rect></rect>
+		...
+	</MarkerSymbol>
+</Symbol>

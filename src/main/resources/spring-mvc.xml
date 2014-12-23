@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.directwebremoting.org/schema/spring-dwr
+        http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+	<description>Spring MVC 配置</description>
+
+	<context:annotation-config />
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.scnu" />
+	
+	<!--开启注解功能 -->
+	<mvc:annotation-driven />
+	
+	 <!-- 定义JSP页面文件路径 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+    	<property name="prefix" value="/WEB-INF/views-jsp/"/>  
+    	<property name="suffix" value=".jsp"/>
+	</bean>
+	
+
+<bean id="multipartResolver"  
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+    <!-- 设置上传文件的最大尺寸为1MB -->  
+    <property name="maxUploadSize">  
+        <value>5048576</value>  
+    </property>  
+</bean> 
+	<!-- 配置资源访问映射路径 -->
+	<mvc:resources mapping="/views-js/**" location="/WEB-INF/views-js/"/>
+	<mvc:default-servlet-handler/>
+
+</beans>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg onload="initialize(evt)" width="215" height="310" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect id="leftmenubj" x="1" y="0" rx="0" ry="0" width="215" height="310" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect id="leftmenu" x="8" y="1" rx="0" ry="0" width="200" height="295" fill="white" fill-opacity="1" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+	<script type="text/ecmascript" xlink:href="../js/combobox.js" />
+
+<script type="text/ecmascript">
+<![CDATA[	
+	var myMapApp = new mapApp(false,undefined);			
+	var BufferText;
+	var tempID;
+	var selLayer;
+	var selLayer_status=0;//是否已经动态创建
+	var selRelation;
+	var LayerArr = new Array();
+	var LayerArr_val = new Array();
+	var Searchbutton1;
+	var RelationArr = ["相交","接触","相离"];	
+	var RelationArr_val = ["crosses","touch","disjoint"];	
+	
+	var comboliste;
+	var DisSpaSearchRes;
+	
+
+document.onkeydown=function(e)
+{
+	switch ((window.event)?event.keyCode:e.which){
+           case 8:
+		window.event.returnValue = false;
+		DELflag=true;
+		textbox.prototype.Delete(tempID,DELflag);
+		//alert(tempID);
+           break;
+
+           default: DELflag=false;
+           break;
+        }
+}
+
+
+	function initialize(evt) {
+	  	var svgDoc = evt.target.ownerDocument ;
+		svgDoc.svgWnd = window ; //这里人为进行设定，以便在html中的第一种交互方式中可以取的到svg的window对象  
+		init_textbox(evt);
+		
+		//init_selectList(evt);
+	
+		init_button("Searchbutton1");
+		
+		//init_combox();
+	}
+	
+	function init_combox(nameArray)
+	{
+		var comboBoxCellHeight = 16;
+		var comboBoxTextpadding = 3;
+		var comboBoxtextStyles = {"font-family":"Arial,Helvetica","font-size":11,"fill":"dimgray"};
+		var comboBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+		var comboBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+		var comboBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+		var comboBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.5};
+		var comboBoxTriangleStyles = {"fill":"dimgray"};
+		
+		/*
+		var liste=new Array
+					(
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false},
+						{key:" ",value:false}
+					);
+	/*/
+		///*
+		var liste=new Array();
+		for(var j = 0; j < nameArray.length; j++)
+		{
+			//liste[j] = new Array({key:nameArray[j],value:false}); 
+			liste[j] = {key:nameArray[j],value:false};
+		}
+		//*/
+		
+
+								
+		 comboliste = new combobox("liste","liste",liste,100,20,50,comboBoxCellHeight,comboBoxTextpadding,10,false,0,comboBoxtextStyles,comboBoxStyles,comboBoxScrollbarStyles,comboBoxSmallrectStyles,comboBoxHighlightStyles,comboBoxTriangleStyles,showCombox);
+		
+	}
+
+	function showCombox()
+	{
+		//comboCity.addElementAtPosition({key:"Zurich",value:true},0,false);
+		//alert(comboTuFu.getCurrentSelections());
+	}
+	
+	function init_button(optype)
+	{
+		//first a few styles
+		var buttonTextStyles = {"font-family":"宋体","fill":"navy","font-size":12};
+		var buttonStyles = {"fill":"lightsteelblue"};
+		var shadeLightStyles = {"fill":"white"};
+		var shadeDarkStyles = {"fill":"navy"};
+		var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+		var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+		var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+		
+		if(optype=='Searchbutton1')
+		{
+			Searchbutton1 = new button("Searchbutton1","searchbut",buttonPressed,"rect","Search",undefined,20,170,55,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+		}
+		else if(optype=='DisSpaSearchRes')
+		{
+			DisSpaSearchRes = new button("DisSpaSearchRes","disSpatSResBut",buttonPressed,"rect","显示区域属性",undefined,20,170,95,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+		}
+		
+	}
+		
+	function buttonPressed(buttonId,evt,textVal) {
+			//document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+			if(buttonId=="Searchbutton1")
+			{
+				window.parent.search();
+			}
+			else if(buttonId=="DisSpaSearchRes")
+			{
+				window.parent.showme(comboliste.getCurrentSelections());
+				window.parent.showdataAttr(comboliste.getCurrentSelections());
+			}
+		}						
+	
+	function init_textbox(evt)
+	{
+		//styles
+		var textStyles = {"font-family":"宋体","font-size":15,"fill":"dimgray"};
+		var boxStyles = {"fill":"#E9E9E9","stroke":"dimgray","stroke-width":1.5};
+		var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		var textselBoxStyles = {"fill":"blue","opacity":0.5};								
+				
+		//textbox_x
+		var textYOffset = 16;//字体距离textbox上框的高度
+
+		//create new textboxes
+		BufferText = new textbox("BufferText","BufferText","1000",25,15,50,70,20,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,"[0-9]",getTextInfo);
+		tempID=BufferText;
+		
+	}
+
+	function init_selectList(scaleindex,layer_scale,layer_name,layer_visible)
+	{
+		//styling parameters
+		var selBoxCellHeight = 16;
+		var selBoxTextpadding = 3;
+		var selBoxtextStyles = {"font-family":"宋体","font-size":11,"fill":"dimgray"};
+		var selBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+		var selBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+		var selBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+		var selBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.3};
+		var selBoxTriangleStyles = {"fill":"dimgray"};	
+
+		//arrays for selectionList data
+		//var LayerArr = ["GDCOUNTRYBND 图层","DBRIV_ALB_OK 图层","gaosu 图层","tielu 图层"];	
+		
+
+
+		if (layer_scale[scaleindex] != ""){
+			var tmp = layer_scale[scaleindex].split(",");
+			var j=0;
+			
+			for (var i=0; i<tmp.length; i++){
+				if (layer_visible[tmp[i]] && layer_name[tmp[i]] != "raster"){
+					LayerArr[j] = layer_name[tmp[i]] + " 图层";
+					LayerArr_val[j] = layer_name[tmp[i]];
+					j++;
+				}
+			}
+		}
+	
+		//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+		//create an empty group with the id as specified above in parameter 'groupId'
+		selLayer = new selectionList("Layer","Layer",LayerArr,130,42,88,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowScale);
+		//selCondition1.sortList("asc");
+		selLayer_status = 1;
+		
+		selRelation = new selectionList("Relation","Relation",RelationArr,46,20,148,selBoxCellHeight,selBoxTextpadding,7,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowScale);
+	
+		//set default value
+		document.getElementById("select1_topo").firstChild.nodeValue = LayerArr_val[0];
+		document.getElementById("select2_topo").firstChild.nodeValue =  RelationArr_val[0];
+	
+	}
+	
+	function removeSelLayer() {
+		if(selLayer_status==0)
+			return true;
+	
+		if (selLayer.exists == true) {
+			selLayer.removeSelectionList();
+			selLayer_status = 0 ;
+		}
+		else {
+			//alert('selLayer already removed');
+		}
+	}
+	
+			
+	function getTextInfo(textboxId,value,changeType) {	
+		document.getElementById("BufferValue").firstChild.nodeValue = value;	
+		//setday(document.getElementById("textboxDate1"))；
+	}								
+		
+	function ShowScale(selBoxName,conditionNr,arrayVal) {
+		//alert(selBoxName);
+		//alert(conditionNr);
+		if(selBoxName=="Layer")
+		{
+			//document.getElementById("select1_topo").firstChild.nodeValue =  arrayVal;
+			document.getElementById("select1_topo").firstChild.nodeValue = LayerArr_val[conditionNr];
+		}
+		else if(selBoxName=="Relation")
+		{
+			//document.getElementById("select2_topo").firstChild.nodeValue =  arrayVal;
+			document.getElementById("select2_topo").firstChild.nodeValue = RelationArr_val[conditionNr];
+			
+		}
+
+	}
+		
+	function onzoom(flag) 
+	{
+   
+		window.parent.onzoom(flag);
+	}		
+		
+]]>
+</script>
+	
+
+<g id="layerSvgZoom" visibility="hidden">
+	<text id="Layer1" x="10" y="15" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+	<text id="Layer12" x="12" y="30" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" > </text>  
+
+	<g id="Layer2" visibility="hidden">
+	<image x="82" y="50" width="17" height="17" xlink:href="../../../images/zoom/zoom-plus.png"></image>
+	<image x="82" y="68" width="17" height="103" xlink:href="../../../images/zoom/zoom-bg.png"></image>
+	<image x="82" y="173" width="17" height="17" xlink:href="../../../images/zoom/zoom-minus.png"></image>
+
+	<image id="L2Slider" x="88" y="160" width="17" height="9" xlink:href="../../../images/zoom/slider.png"></image>
+
+
+	<rect x="82" y="50" width="17" height="17" fill="white" fill-opacity="0" onclick='onzoom(1)'/>
+
+	<rect x="82" y="173" width="17" height="17" fill="white" fill-opacity="0" onclick='onzoom(-1)'/>
+	</g>
+</g>
+
+
+<g id="layerBufferSvg" visibility="hidden">
+	<text id="LayerBufferS1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：缓冲区</text>  
+	<text id="LayerBufferS2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >请输入缓冲区大小：</text>  
+	
+	<g id="BufferText" />
+	<text id="BufferValue" visibility="hidden" x="90" y="70" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red">1000</text>  
+
+	<text id="LayerBufferS3" x="90" y="63" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >米</text>  
+	<text id="LayerBufferS4" x="12" y="90" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red" >ps：点击已生成的缓冲区可删除它</text>  
+</g>
+
+<g id="layerSpaceSearchSvg" visibility="hidden">
+	<text id="layerSpaceSS1" x="12" y="20" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >您选择的功能：空间查找</text>  
+	<text id="layerSpaceSS2" x="12" y="40" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >当前所选择的的空间对象为：</text>  
+	
+	<text id="SpaceObjId" x="15" y="62" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red">ID：</text>  
+
+	<text id="layerSpaceSS41" x="12" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >查询</text>  
+	<text id="layerSpaceSS42" x="180" y="100" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >中</text>  
+	<text id="layerSpaceSS5" x="12" y="130" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >与所选择的空间对象</text>  
+	<text id="layerSpaceSS6" x="72" y="160" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >的空间实体</text>  
+	<g id="Layers"/>
+	<g id="Relation"/>
+	<text id="select1_topo" visibility="hidden" x="90" y="180" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<text id="select2_topo" visibility="hidden" x="90" y="200" style="text-anchor:start;font-size:12;font-family:SimSun;fill:red"> </text>
+	<g id="searchbut"/>
+	
+</g>
+
+<g id="layerSpaceSeaRes" visibility="hidden">
+	<text id="layerSpaceSR1" x="12" y="30" style="text-anchor:start;font-size:12;font-family:SimSun;fill:black" >下列结果被找到：</text>  
+	<g id="liste" ></g>
+	<g id="disSpatSResBut"/>
+</g>
+
+
+
+
+
+<g id="disabledLayer" visibility = "hidden">
+<rect  x="0" y="0" width="215" height="310" fill="gray" fill-opacity=".6" stroke="gray"  />
+</g>
+
+</svg>

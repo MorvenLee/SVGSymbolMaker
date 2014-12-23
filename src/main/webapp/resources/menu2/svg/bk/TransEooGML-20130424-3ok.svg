@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="720" height="340" onload="initialize(evt)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:batik="http://xml.apache.org/batik/ext">
+<rect x="0" y="0" rx="15" ry="15" width="712" height="420" fill="#084573" fill-opacity=".9" stroke="#00000" xmlns="http://www.w3.org/2000/svg" />
+<rect x="16" y="14" width="680" height="391" rx="10" ry="10" fill="#E6E6E6" stroke="#CCCCCC" stroke-width="2" xmlns="http://www.w3.org/2000/svg" />
+
+<svg  id="SvgLev1">
+
+
+<style type="text/css">
+
+			.progressBar{
+				width: 200px;
+				height: 20px;
+				border: 1px solid #000;
+				-moz-border-radius: 8px;
+				margin-bottom: 10px;
+			}
+			.progressBar p{
+				margin: 0px;
+				width: 20px;
+				height: 20px;
+				-moz-border-radius: 8px;
+				background-color: #00FF00;
+			}
+		</style>
+
+<script type="text/ecmascript" xlink:href="../js/helper_functions.js" />
+	<script type="text/ecmascript" xlink:href="../js/mapApp.js" />
+	<script type="text/ecmascript" xlink:href="../js/timer.js" />
+	<script type="text/ecmascript" xlink:href="../js/textbox.js" />
+	<script type="text/ecmascript" xlink:href="../js/checkbox_and_radiobutton.js" />
+	<script type="text/ecmascript" xlink:href="../js/selectionList.js"/>	
+	<script type="text/ecmascript" xlink:href="../js/button.js"/>
+	
+	<script type="text/ecmascript" xlink:href="../js/scrollbar.js"/>
+	
+
+
+	<script type="text/ecmascript">
+		<![CDATA[	
+		
+		var myMapApp = new mapApp(false,undefined);
+		var textbox1;
+		
+		
+		var textbutton1;
+		var textbutton2;
+		
+		
+		
+		var selattr;
+		var selsplitAttr;
+			
+		
+		
+		//arrays for selectionList data
+		var attrArr = new Array();	
+		var splitAttrArr = new Array();	
+
+		var attrArr_val = new Array();	
+		var splitAttrArr_val = new Array();	
+		
+		var scrolledObject1;
+		
+		function initialize(evt)
+		{
+			window.parent.initPara();//初始化html中的参数
+			
+			var svgDoc = evt.target.ownerDocument ;
+			svgDoc.svgWnd = window ; //这里人为进行设定，以便在html中的第一种交互方式中可以取的到svg的window对象	
+			
+			init_interactivebox(evt);
+			/*
+			var svgHeight = 390;
+			var contentMaxHeight = 620;
+			var barheight = 386;
+			var diffHeight = -(contentMaxHeight - svgHeight  + 20);
+			var percentH = svgHeight/contentMaxHeight;
+			
+			init_scrollbar(barheight,diffHeight,percentH);
+			*/
+		}
+	
+//nancy add0423
+function getAttrdata(filePath) 
+{
+	var xmlHttpReq = new XMLHttpRequest();
+	
+	var tmp = filePath.split("\\");
+	var fileName = tmp[tmp.length-1];
+	
+	tmp = fileName.split("\.e00");
+	fileName = tmp[0];
+	//alert(fileName); 
+	
+	var url = "../../dataProcess/getTransAttrdata.jsp?fileName=" + fileName ;
+	xmlHttpReq.open("GET",url,true);
+	xmlHttpReq.onreadystatechange = function() { setAttrArr(xmlHttpReq);};
+	xmlHttpReq.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpReq.send(null);
+}
+
+function　setAttrArr(xmlHttpReq)
+{
+	if(xmlHttpReq.readyState == 4)
+	{
+		if(xmlHttpReq.status == 200)
+		{
+			var rt = xmlHttpReq.responseText;
+			//alert(rt);
+			
+				var tmp = rt.split(";");
+
+				var tmp1 = tmp[0].split("|");
+				var tmp2 = tmp[1].split("|");
+			
+				var j=0;
+				attrArr[j] = "自动";
+				attrArr_val[j] = -1;
+				j++;
+			
+				for (var i=0; i<tmp1.length; i++){
+					attrArr[j] = tmp1[i] ;
+					attrArr_val[j] = tmp1[i];
+					j++;
+				}
+			
+				j=0;
+				splitAttrArr[j] = "不拆分";
+				splitAttrArr_val[j] = -1;
+				j++;
+			
+				for (var i=0; i<tmp2.length; i++){
+					splitAttrArr[j] = tmp2[i] ;
+					splitAttrArr_val[j] = tmp2[i];
+					j++;
+				}
+			
+					
+			document.getElementById("attrSplitattr").setAttributeNS(null,"visibility","visible");
+			init_selctions();	
+			return rt;
+		}
+	}	
+	
+}
+		
+		function init_selctions()
+		{
+					
+			//styling parameters
+				var selBoxCellHeight = 18;
+				var selBoxTextpadding = 3;
+				var selBoxtextStyles = {"font-family":"宋体","font-size":12,"fill":"dimgray"};
+				var selBoxStyles = {"stroke":"dimgray","stroke-width":1,"fill":"white"};
+				var selBoxScrollbarStyles = {"stroke":"dimgray","stroke-width":1,"fill":"whitesmoke"};
+				var selBoxSmallrectStyles = {"stroke":"dimgray","stroke-width":1,"fill":"lightgray"};
+				var selBoxHighlightStyles = {"fill":"dimgray","fill-opacity":0.3};
+				var selBoxTriangleStyles = {"fill":"dimgray"};	
+							
+														
+			//usage: var newSelList = new selectionList(groupId,elementsArray,width,xOffset,yOffset,cellHeight,textPadding,heightNrElements,textStyles,boxStyles,scrollbarStyles,smallrectStyles,highlightStyles,triangleStyles,preSelect,openAbove,putOnTopOfParent,functionToCall);
+			//create an empty group with the id as specified above in parameter 'groupId'
+			selattr = new selectionList("attr","attr",attrArr,120,80,252,selBoxCellHeight,selBoxTextpadding,17,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowSelction);
+			//selCondition1.sortList("asc");
+			selsplitAttr = new selectionList("splitAttr","splitAttr",splitAttrArr,120,80,310,selBoxCellHeight,selBoxTextpadding,17,selBoxtextStyles,selBoxStyles,selBoxScrollbarStyles,selBoxSmallrectStyles,selBoxHighlightStyles,selBoxTriangleStyles,0,false,true,ShowSelction);
+	
+	
+			//set default value
+			document.getElementById("attr_selVal").firstChild.nodeValue = attrArr_val[0];
+			document.getElementById("splitAttr_selVal").firstChild.nodeValue = splitAttrArr_val[0];
+			
+			
+		}
+		
+		function init_interactivebox(evt) {
+		
+		//alert(window.svgDocument);
+		//initPara(evt);
+		
+		
+		            //resizeTo(760,440)
+		            //styles
+		            var textStyles = {"font-family":"SimSun","font-size":15,"fill":"black"};
+		            var boxStyles = {"fill":"#E9E9E9","stroke":"black","stroke-width":1.5};
+		            var cursorStyles = {"stroke":"red","stroke-width":1.5};
+		            var textselBoxStyles = {"fill":"blue","opacity":0.5};
+		          
+			//buttons style
+			var buttonTextStyles = {"font-family":"SimSun","fill":"navy","font-size":12};
+			var buttonStyles = {"fill":"lightsteelblue"};
+			var shadeLightStyles = {"fill":"white"};
+			var shadeDarkStyles = {"fill":"navy"};
+			var buttonRoundStyles = {"fill":"lightsteelblue","rx":10,"ry":10};
+			var shadeLightRoundStyles = {"fill":"white","rx":10,"ry":10};
+			var shadeDarkRoundStyles = {"fill":"navy","rx":10,"ry":10};
+								
+							            
+		        //textbox_x
+				var textboxX = 180;
+				var textYOffset = 16;//字体距离textbox上框的高度
+		        //checkbox_x
+				var checkboxX = 180;				
+				//labeltext styles
+				//var labeltextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":15};//Arial,Helvetica，360浏览器不支持
+				var labeltextStyles = {"font-family":"SimSun","fill":"dimgray","font-size":15};				
+				//variables for label placement
+				var labelDistance = 12;
+				var labelYOffset = 5.5;
+			
+			
+									
+			//create new textboxes
+			//textbox1 = new textbox("textbox1","textbox1","upload files",300,textboxX,92,230,25,textYOffset,textStyles,boxStyles,cursorStyles,textselBoxStyles,undefined,getTextInfo);
+			
+			//create new buttons
+			//textbutton1 = new button("textbutton1","textbuttons",buttonPressed,"rect","..浏览",undefined,420,90,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);
+			textbutton2 = new button("textbutton2","textbuttons",buttonPressed,"rect","重置",undefined,220,360,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			textbutton3 = new button("textbutton3","textbuttons",buttonPressed,"rect","提交",undefined,360,360,75,25,buttonTextStyles,buttonRoundStyles,shadeLightRoundStyles,shadeDarkRoundStyles,1);			
+			
+				//重置按钮添加链接
+				textbutton2.makeLinkButton("../svg/TransEooGML.svg","self","_parent");
+		
+			}
+			
+		
+function ShowSelction(selBoxName,conditionNr,arrayVal) 
+{
+	document.getElementById("inputchange").firstChild.nodeValue = "sel:" + arrayVal;
+	
+	if(selBoxName=="attr")
+		{
+			document.getElementById("attr_selVal").firstChild.nodeValue = attrArr_val[conditionNr];
+			
+		}	
+		else if(selBoxName=="splitAttr")
+		{
+			document.getElementById("splitAttr_selVal").firstChild.nodeValue = splitAttrArr_val[conditionNr];
+		}
+
+}		
+
+		
+		function getTextInfo(textboxId,value,changeType) {
+		
+			document.getElementById("inputchange").firstChild.nodeValue = "Content of "+textboxId+" is \""+value+"\"";
+			
+			//setday(document.getElementById("textboxDate1"))；
+		}
+		
+		function buttonPressed(buttonId,evt,textVal) {
+			document.getElementById("inputchange").firstChild.nodeValue = "butId '"+buttonId+"' value '"+textVal+"' was pressed";
+			
+			if(buttonId=="textbutton1")//浏览
+			{
+				showDialog();
+			}
+			else if(buttonId=="textbutton2")//重置
+			{
+				//var tmp = document.getElementById("textbutton2");
+				//alert(document.getElementById("textbutton2"));
+				//window.parent.makeLink(document.getElementById("textbutton2"), "../svg/TransEooGML.svg");
+				//textbutton2.makeLinkButton("../svg/TransEooGML.svg","self","_parent");//加到init中
+			}
+			else if(buttonId=="textbutton3")//提交
+			{
+				var fileUpSrc = document.getElementById("upload_fileSrc").firstChild.nodeValue.trim();
+				var attr_selVal = document.getElementById("attr_selVal").firstChild.nodeValue.trim();
+				var splitAttr_selVal = document.getElementById("splitAttr_selVal").firstChild.nodeValue.trim();	
+				
+				if(fileUpSrc=="")
+				{
+					alert("请先上传文件！");
+					return false;
+				}
+				
+				window.parent.transSubmit(fileUpSrc,attr_selVal,splitAttr_selVal);
+			}
+		}
+
+
+function init_scrollbar(barheight,diffHeight,percentH) {
+				myMapApp = new mapApp(false,undefined);
+				//scrollbar styles
+				var scrollbarStyles = {"fill":"whitesmoke","stroke":"dimgray","stroke-width":1};
+				//var scrollerStyles = {"fill":"lightgray","stroke":"dimgray","stroke-width":1};
+				var scrollerStyles = {"fill":"lightblue","stroke":"dimgray","stroke-width":1};
+				var triangleStyles = {"fill":"dimgray"};
+				var highlightStyles = {"fill":"dimgray","stroke":"dimgray","stroke-width":1};
+				//button styles
+				var buttonTextStyles = {"font-family":"Arial,Helvetica","fill":"dimgray","font-size":12};
+				var buttonStyles = {"fill":"gainsboro"};
+				var shadeLightStyles = {"fill":"white"};
+				var shadeDarkStyles = {"fill":"dimgray"};
+
+				//create scrolledObjects to react on scrollbar
+				//scrolledObject1 = new scrolledObject("content1",0,-2707,0,-50,"sb1horiz","sb1vert");
+				scrolledObject1 = new scrolledObject("content1",0,-2707,0,diffHeight,"sb1horiz","sb1vert");
+
+				//id,parentNode,x,y,width,height,startValue,endValue,initialWidthPerc,initialOffset,scrollButtonLocations,scrollbarStyles,scrollerStyles,triangleStyles,highlightStyles,functionToCall
+				//myMapApp.scrollbars["sb1horiz"] = new scrollbar("sb1horiz","scrollbars1",50.5,250.5,899,15,scrolledObject1.maxX,scrolledObject1.minX,0.2495,0,0.005,"top_bottom",scrollbarStyles,scrollerStyles,triangleStyles,highlightStyles,scrolledObject1);
+				//myMapApp.scrollbars["sb1vert"] = new scrollbar("sb1vert","scrollbars1",680,18,15,height,scrolledObject1.maxY,scrolledObject1.minY,0.6756,0,0.025,"top_bottom",scrollbarStyles,scrollerStyles,triangleStyles,highlightStyles,scrolledObject1);
+				myMapApp.scrollbars["sb1vert"] = new scrollbar("sb1vert","scrollbars1",680,18,15,barheight,scrolledObject1.maxY,scrolledObject1.minY,percentH,0,0.025,"top_bottom",scrollbarStyles,scrollerStyles,triangleStyles,highlightStyles,scrolledObject1);				
+				
+		}
+			//this object controls the panning and scrolling of the svg elements (panoramas)
+			function scrolledObject(contentId,maxX,minX,maxY,minY,sbXId,sbYId) {
+				this.content = document.getElementById(contentId);
+				this.transX = 0;
+				this.transY = 0;
+				this.maxX = maxX;
+				this.minX = minX;
+				this.maxY = maxY;
+				this.minY = minY;
+				this.sbXId = sbXId;
+				this.sbYId = sbYId;
+				this.panActive = false;
+				this.parent = this.content.parentNode;
+			}
+			scrolledObject.prototype.scrollbarChanged = function(id,changeType,valueAbs,valuePerc) {
+				if (changeType == "scrollChange" || "scrolledStep") {
+					if (id.match(/horiz/gi)) {
+						this.transX = valueAbs;
+					}
+					if (id.match(/vert/gi)) {
+						this.transY = valueAbs;
+					}
+					this.content.setAttributeNS(null,"transform","translate("+this.transX+","+this.transY+")");
+				}
+			}
+			scrolledObject.prototype.handleEvent = function(evt) {
+				if (evt.type == "mousedown") {
+					this.coords = myMapApp.calcCoord(evt,this.parent);
+					this.panActive = true;
+				}
+				if (evt.type == "mousemove" && this.panActive) {
+					var coords = myMapApp.calcCoord(evt,this.parent);
+					this.transX += coords.x - this.coords.x;
+					this.transY += coords.y - this.coords.y;
+					if (this.transX < this.minX) {
+						this.transX = this.minX;
+					}
+					if (this.transX > this.maxX) {
+						this.transX = this.maxX;
+					}
+					if (this.transY < this.minY) {
+						this.transY = this.minY;
+					}
+					if (this.transY > this.maxY) {
+						this.transY = this.maxY;
+					}
+					this.content.setAttributeNS(null,"transform","translate("+this.transX+","+this.transY+")");
+					//set scrollbars
+					if (myMapApp.scrollbars[this.sbXId]) {
+						myMapApp.scrollbars[this.sbXId].scrollToValue(this.transX);
+					}
+					if (myMapApp.scrollbars[this.sbYId]) {
+						myMapApp.scrollbars[this.sbYId].scrollToValue(this.transY);
+					}
+					this.coords = coords;
+				}
+				if (evt.type == "mouseup" || evt.type == "mouseout") {
+					this.panActive = false;
+				}
+				//the preventDefault() method is called because there is some evt problem in Webkit because it tries to drag the raster image to desktop or other applications
+				evt.preventDefault();
+			}
+			scrolledObject.prototype.buttonPressed = function(id,evt,buttonText) {
+				if (id.match(/removeButton/)) {
+						myMapApp.scrollbars[this.sbXId].remove();
+						myMapApp.scrollbars[this.sbXId] = undefined;
+						myMapApp.scrollbars[this.sbYId].remove();
+						myMapApp.scrollbars[this.sbYId] = undefined;
+						myMapApp.buttons[id].deactivate();
+						//get id number
+						var sbId = id.substr(id.length-1);
+						myMapApp.buttons["showHideButton"+sbId].deactivate();
+				}
+				else {
+					if (buttonText == "Hide Scrollbar") {
+						myMapApp.buttons[id].setTextValue("Show Scrollbar");
+						myMapApp.scrollbars[this.sbXId].hide();
+						myMapApp.scrollbars[this.sbYId].hide();
+					}
+					else {
+						myMapApp.buttons[id].setTextValue("Hide Scrollbar");
+						myMapApp.scrollbars[this.sbXId].show();
+						myMapApp.scrollbars[this.sbYId].show();
+					}
+				}
+			}
+
+
+		
+function showDialog(){
+   MSComDlg_CommonDialog(1);
+}
+function MSComDlg_CommonDialog(cmd){
+    if(!ActiveXObject)return;
+    var obj=new ActiveXObject('MSComDlg.CommonDialog');
+    var filename=false;
+    try{
+        switch(cmd){
+        case 2:
+            obj.ShowColor();
+            break;
+        case 3:
+            obj.ShowFont();
+            break;
+        case 4:
+            obj.ShowHelp();
+            break;
+        default:
+            obj.Filter= "E00文件(*.e00)|*.e00|All files(*.*)|*.*|";
+            obj.FilterIndex = 1;
+            obj.MaxFileSize = 255;
+            if(cmd==0){
+                obj.ShowSave();
+            }else{
+                obj.ShowOpen();
+            }
+        }
+        filename = obj.filename;
+        
+        //alert(filename);
+        document.getElementById("inputchange").firstChild.nodeValue = filename;
+        
+    }catch(e){alert(e.message);}
+    return filename;
+}		
+		
+		]]>
+	</script>
+
+	<g id="textbuttons" />
+	
+		
+	<g font-family="SimSun" font-size="13">
+	<text x="10" y="40" id="inputchange" space="preserve" font-family="SimSun" font-size="15" fill="#FFFFFF" stroke="#FF0000" font-weight="bold">调用结果：</text>
+	</g>
+	
+	
+	<g id="DragContainer">
+		<text x="50" y="70"  font-family="SimSun" font-size="20" fill="#000000"  font-weight="bold">拽件待导入的EOO文件到此处</text>
+		<text x="320" y="70"  font-family="SimSun" font-size="20" fill="red"  font-weight="bold">（*必选）</text>
+		<rect id="RectContainer" x="100" y="90" width="386" height="121" rx="5" ry="5" fill="white" stroke="red" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" />		
+		<g id="fileList"></g>
+		
+	</g>
+	
+	<g id="attrSplitattr" visibility="hidden">
+		<text x="50" y="240"  font-family="SimSun" font-size="12" fill="#000000" >由于您上传了e00数据文件，所以请您选择该文件中属性的唯一标识主键，或者让系统为您自动生成主键。</text>
+		<text x="50" y="300"  font-family="SimSun" font-size="12" fill="#000000" >请选择该文件中某个属性做为拆分此文件成多个图层的标志，或者不拆分只生成一个图层。</text>
+		
+	</g>
+	
+	<g id="attr"/>
+	<g id="splitAttr"/>
+	<text id="upload_fileSrc" visibility="visible" x="32" y="200" style="text-anchor:start;font-size:16;font-family:SimSun;fill:red"> </text>
+	<text id="attr_selVal" visibility="visible" x="212" y="270" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	<text id="splitAttr_selVal" visibility="visible" x="212" y="320" style="text-anchor:start;font-size:20;font-family:SimSun;fill:red"> </text>
+	
+
+
+		
+
+
+</svg>
+
+
+
+<svg  id="SvgLev2" visibility="hidden" y="18" height="390">
+<g transform="translate(0,-22)" id="content1" >	
+	<text id="disDownTip" x="52" y="60" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black">点击下面链接可下载转换后的GML文件</text>
+	<text id="disDownInfo" x="72" y="70" style="text-anchor:start;font-size:20;font-family:SimSun;fill:blue"> </text>
+	<text id="disDownTest" visibility="hidden" x="22" y="620" style="text-anchor:start;font-size:16;font-family:SimSun;fill:black">testetstestsssssssssssssssss</text>
+</g>
+<g id="scrollbars1"  transform="translate(0,-18)"/>
+</svg>
+</svg>
